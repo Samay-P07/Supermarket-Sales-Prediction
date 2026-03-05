@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.jpeg') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Market Sales Prediction</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- font awesome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+      
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap" rel="stylesheet">
+
+    
+    <link rel = "stylesheet" href = "/static/css/style.css">
+    <!-- fonts -->
+    <link rel = "stylesheet" href = "/static/font/fonts.css">
+    <!-- normalize css -->
+    <link rel = "stylesheet" href = "/static/css/normalize.css">
+    <!-- custom css -->
+    <link rel = "stylesheet" href = "/static/css/utility.css">
+    <link rel = "stylesheet" href = "/static/css/responsive.css">
+
+  </head>
+  <body>
+
+  <!-- navbar  -->
+  <nav class = "navbar">
+    <div class = "container flex">
+        <span class="navbar-logo">
+                <img src="/static/logo-2.png" alt="navbar-logo" style="height: 3rem; width: 70px;">
+            </a>
+        </span>
+        <a href = "{{ url_for( 'index' ) }}" class = "site-brand">
+            Predict<span>ify</span>
+        </a>
+
+        <button type = "button" id = "navbar-show-btn" class = "flex">
+            <i class = "fas fa-bars"></i>
+        </button>
+        <div id = "navbar-collapse">
+            <button type = "button" id = "navbar-close-btn" class = "flex">
+                <i class = "fas fa-times"></i>
+            </button>
+            <ul class = "navbar-nav">
+                <li class = "nav-item">
+                    <a class="active" href = "{{ url_for( 'index' ) }}" class = "nav-link">HOME</a>
+                </li>
+                <li class = "nav-item">
+                    <a href = "{{ url_for( 'start' ) }}" class = "nav-link">PREDICTION</a>
+                  </li>
+                <li class = "nav-item">
+                    <a href = "{{ url_for('about') }}" class = "nav-link">ABOUT US</a>
+                </li>
+                <li class = "nav-item">
+                    <a href = "{{ url_for( 'contact' ) }}" class = "nav-link">CONTACT US</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- end of navbar  -->
+
+<style>
+  #app{
+  text-align: center;
+  font-size:50px;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #00a2ff 100%
+  );
+  background-clip:border-box;
+   /* text-fill-color: transparent; */
+  background-clip:text;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color: transparent;
+  /* text-fill-color: transparent; */
+  animation: textclip 2s linear infinite;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+</style>
+
+<style>h1{
+    font-family: 'poppins';
+}
+</style>
+<header class = "flex">
+    <div class = "container">
+      <div class = "header-title">
+        <div id="app">
+           <!-- <h1>Sales Wizard</h1>  -->
+        </div>  
+            <div class="mbr-overlay" style="opacity: 0.9; background-color: rgb(8, 8, 8);"></div>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="content-wrap col-12 col-md-12">
+                   <h1 class="mbr-section-title mbr-fonts-style mbr-white mb-4 display-1">
+                    <strong>Sales Wizard</strong>
+                  </h1> 
+                  
+                  <p class="mbr-fonts-style mbr-text mbr-white mb-4 display-7">Unleash the Power of Data to Maximize Your Supermarket Profits with Profitify's Predict Pro Tool!</p>
+                  <div class="mbr-section-btn"><a href="#popular" class="btn btn-white-outline display-7">Explore</a></div>
+                </div>
+              </div>
+            </div>     
+        </div>
+    </div>
+</header>
+
+<script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+    <script> 
+      var app = document.getElementById('app');
+
+var typewriter = new Typewriter(app, {
+    loop: true
+});
+
+typewriter.typeString('<strong>Welcome To our Website</strong>')
+    .pauseFor(2500)
+    .deleteAll()
+    // .typeString('Web Designer')  
+    // .pauseFor(2500)
+    // .deleteAll()
+    .typeString('<strong>Python Developer</strong>')
+    .pauseFor(2500)
+    .start();
+    </script>
+
+
+<!-- popular places section -->
+<section id = "popular" class = "py-4">
+    <div class = "title-wrap">
+        <span class = "sm-title">know about some Super Markets </span>
+        <h2 class = "lg-title">popular Super Markets In India</h2>
+    </div>
+
+    <div class = "popular-row">
+        <div class = "popular-item shadow">
+            <img src = "/static/Reliance-Fresh.png" alt = "">
+            <div>
+                <strong><span>Reliance-retail</span></strong>
+                <h4>Founded in 2006</h4>
+                <ul class = "rating flex">
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star-half-alt"></i></li>
+                    <li>&nbsp;850 reviews</li>
+                </ul>
+                <p class = "text">Reliance Retail had over 11,000 <br>
+                    stores across more than 6,700 cities in <br>
+                    India, making it one of the largest <br>
+                    retail chains in the country.</p>
+            </div>
+        </div>
+
+        <div class = "popular-item shadow">
+            <img src = "/static/Dimart.jpg" alt = "">
+            <div>
+              <strong><span>D-mart</span></strong>
+              <h4>Founded in 2002</h4>
+                <ul class = "rating flex">
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star-half-alt"></i></li>
+                    <li>&nbsp;750 reviews</li>
+                </ul>
+                <p class = "text">D-Mart had over 220 stores <br>
+                     across 11 states in India.<br>
+                     D-mart chain has expanded<br>
+                     rapidly across India. </p>
+            </div>
+        </div>
+        
+        <div class = "popular-item shadow">
+            <img src = "/static/star-bazaar.jpg" alt = "">
+            <div>
+              <strong><span>Star Bazaar</span></strong>
+              <h4>Founded in 2004</h4>
+                <ul class = "rating flex">
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li>&nbsp;700 reviews</li>
+                </ul>
+                <p class = "text">Star Bazaar is present in 48 stores <br>
+                                  in Mumbai, Pune, Bangalore, <br>
+                                  Kolhapur,and Hyderabad. The 
+                                  supermarket
+                                  chain opened its first store in Ahmedabad </p>
+            </div>
+        </div>
+
+        <div class = "popular-item shadow">
+          <img src = "/static/Big bazaar.png" alt = "">
+          <div>
+            <strong><span>Big Bazaar</span></strong>
+            <h4>Founded in 2001</h4>
+              <ul class = "rating flex">
+                  <li><i class = "fas fa-star"></i></li>
+                  <li><i class = "fas fa-star"></i></li>
+                  <li><i class = "fas fa-star"></i></li>
+                  <li><i class = "fas fa-star-half-alt"></i></li>
+                  <li>&nbsp;600 reviews</li>
+              </ul>
+              <p class = "text">Big Bazaar has 285+ stores in over<BR>
+                   140 cities and towns across the country.</p>
+          </div>
+      </div>
+
+        <div class = "popular-item shadow">
+            <img src = "/static/Blinkit.png" alt = "">
+            <div>
+              <strong><span>Blinkit</span></strong>
+              <h4>Founded in 2013</h4>
+                <ul class = "rating flex">
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star-half-alt"></i></li>
+                    <li>&nbsp;725 reviews</li>
+                </ul>
+                <p class = "text">Blinkit currently has a network <br>
+                                  of 400+ dark stores through which <br>
+                                  it services in 20-odd cities.</p>
+            </div>
+        </div>
+
+        <div class = "popular-item shadow">
+            <img src = "/static/BigBasket.png" alt = "">
+            <div>
+              <strong><span>Big-Basket</span></strong>
+              <h4>Founded in 2011</h4>
+                <ul class = "rating flex">
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star-half-alt"></i></li>   
+                    <li>&nbsp;750 reviews</li>
+                </ul>
+                <p class = "text">bigbasket is currently present in <br>
+                                  400 cities across the country and its<br>
+                                   online app has a rating of 4.7.</p>
+            </div>
+        </div>
+
+        <div class = "popular-item shadow">
+            <img src = "/static/Spencer.png" alt = "">
+            <div>
+              <strong><span>Spencer</span></strong>
+              <h4>Founded in 2001</h4>
+                <ul class = "rating flex">
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li>&nbsp;800 reviews</li>
+                </ul>
+                <p class = "text">Today, Spencer's runs 120 stores, <br>
+                                  including 37 Hyper stores in over <br>
+                                  35 cities in India.</p>
+            </div>
+        </div>
+
+        <div class = "popular-item shadow">
+            <img src = "/static/Nature's Basket.png" alt = "">
+            <div>
+                <span>Nature's Basket</span>
+                <h4>Founded in 2005</h4>
+                <ul class = "rating flex">
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star"></i></li>
+                    <li><i class = "fas fa-star-half-alt"></i></li>
+                    <li>&nbsp;400 reviews</li>
+                </ul>
+                <p class = "text">Nature's Basket operates 31 physical
+                     stores in cities such as Mumbai,
+                      Bengaluru, Pune and Kolkata.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end of popular places section -->
+
+
+<!-- <fact section> -->
+<section id = "facts" class = "py-4 flex">
+    <div class = "container">
+        <div class = 'title-wrap'>
+            <span class = "sm-title">know some facts about our agency</span>
+            <h2 class = "lg-title">fun facts</h2>
+        </div>
+
+        <div class = "facts-row">
+            <div class = "facts-item">
+              <svg xmlns="http://www.w3.org/2000/svg" Width="50" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path fill="#c5c4c4" d="M220.6 121.2L271.1 96 448 96v96H333.2c-21.9-15.1-48.5-24-77.2-24s-55.2 8.9-77.2 24H64V128H192c9.9 0 19.7-2.3 28.6-6.8zM0 128V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H271.1c-9.9 0-19.7 2.3-28.6 6.8L192 64H160V48c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16l0 16C28.7 64 0 92.7 0 128zM168 304a88 88 0 1 1 176 0 88 88 0 1 1 -176 0z"/></svg>
+                <div class = "facts-info">
+                    <strong>62691</strong>
+                    <p class = "text">Number of Super Markets in India</p>
+                </div>
+            </div>
+
+            <div class = "facts-item">
+              <svg xmlns="http://www.w3.org/2000/svg" Width="50" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path fill="#cbcccd" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>
+                <div class = "facts-info">
+                    <strong>31305</strong>
+                    <p class = "text">Number of Supermarkets in india with phone number</p>
+                </div>
+            </div>
+
+            <div class = "facts-item">
+              <svg xmlns="http://www.w3.org/2000/svg" Width="50" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path fill="#cbc7d7" d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
+              <div class = "facts-info">
+                  <strong>1250</strong>
+                  <p class = "text">Number of Supermarkets in india with E-Mail</p>
+              </div>
+          </div>
+
+            <div class = "facts-item">
+
+              <svg xmlns="http://www.w3.org/2000/svg" Width="50" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path fill="#cbcccd" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>
+                
+                <svg xmlns="http://www.w3.org/2000/svg" Width="20" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path fill="#cdcecf" d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+                  
+                  <svg xmlns="http://www.w3.org/2000/svg" Width="50" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path fill="#cbc7d7" d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
+                <div class = "facts-info">
+                    <strong>5346</strong>
+                    <p class = "text">Number of Supermarkets in india with phone number & E-mail</p>
+                </div>
+            </div>
+        </div>
+</section>
+<!-- <end of fact section> -->
+
+
+
+<!-- video section -->
+ <section id = "video">
+    <div class = "video-wrapper flex">
+        <video loop>
+            <source src = "../static/video-section.mp4" type = "video/mp4">
+        </video>
+        <button type = "button" id = "play-btn">
+            <i class = "fas fa-play"></i>
+        </button>
+    </div>
+  </section> 
+  <!-- end of video section -->
+  
+  
+  <!-- js -->
+  <script src = "/static/js/script.js"></script>
+  <script>
+    // play/pause video
+    let video = document.querySelector('.video-wrapper video');
+    document.getElementById('play-btn').addEventListener('click', () => {
+        if(video.paused){
+            video.play('bi-pause-fill3');
+        } else {
+            video.pause('bi-play-fill');
+        }
+    });
+  </script> 
+
+  
+
+<style>
+#Foter {
+    justify-content: center;
+    position: bottom;
+    background: #111;
+    width: 100%;
+    /* padding: 5px; */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.13);
+    z-index: 100;
+}
+.foter {
+    padding: 15px 20px 0 20px;
+    position: relative;
+    text-align: center;
+}
+
+.foter h3 {
+    margin: 10px 40px;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    color: #fff;
+}
+
+
+.foter p {
+    margin: 30px 40px;
+    font-size: 18px;
+    color: silver;
+    text-align: center;
+    letter-spacing: 1px;
+}
+.socials {
+    margin: 0;
+    padding: 10px;
+    list-style: none;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.socials li {
+    margin: 10px;
+    padding: 10px 15px;
+    border-radius: 50%; 
+    /* border: 1px solid #fff; */
+ } 
+
+ .socials a {
+    text-decoration: none;
+    color: #2842d4;
+    padding: 5px 0;
+}
+
+.socials a i {
+    font-size: 38px;
+    transition: color .3s linear;
+    padding-left: 15px;
+}
+
+.socials a:hover .fa {
+    color: #e3e4f0;
+    transition: color .1s linear;
+} 
+
+
+/* Text */
+
+
+.last {
+    padding: 1px;
+    margin: 0;
+}
+
+.last p {
+    font-size: 18px;
+    letter-spacing: .5px;
+    text-align: center;
+    color: gray;
+}
+
+.last span {
+    color: #8490ff;
+}
+</style>
+
+    <footer id="Footer">
+
+      <div class="foter">
+        <h3 class="mbr-section-title align-center mb-5 mbr-fonts-style display-2">
+          <strong>Join Our Social Media Community</strong>
+        </h3>
+        <div class="socials">
+        <a target="_blank" href="https://www.facebook.com/Samay.patel.07?mibextid=LQQJ4d"><i class="fab fa-facebook fa-3x facebook"></i></a>
+        <a target="_blank" href="https://www.instagram.com/samay.patel_07?igsh=eGRvZ3B5OWNpbDdw&utm_source=qr"><i class="fab fa-instagram fa-3x instagram-icon" aria-hidden="true" style="size: 20px;"></i></a>
+        <a target="_blank" href="https://www.linkedin.com/in/samay-patel-8649862a7?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"><i class="fab fa-linkedin fa-3x linkedin-icon"></i></a>
+        <a target="_blank" href="https://github.com/Samay-P07/desktop-tutorial"><i class="fab fa-github fa-3x github-icon"></i></a>
+      </div>
+        </div>
+
+        <div class="last">
+            <p>A Machine learning Sales Prediction web-application, build with flask.<br><br>
+             <strong>&copy; All rights reserved by Samay Patel | Devoloped by Samay Patel | 2024</strong> </p>
+        </div>
+  
+    </footer> 
+
+    
+  </body>
+</html>
+    

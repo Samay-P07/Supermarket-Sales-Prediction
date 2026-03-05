@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.jpeg') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Market Sales Prediction</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <!-- font awesome cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+
+  <!-- fonts -->
+  <link rel = "stylesheet" href = "/static/font/fonts.css">
+  <!-- normalize css -->
+  <link rel = "stylesheet" href = "/static/css/normalize.css">
+  <!-- custom css -->
+  <link rel = "stylesheet" href = "/static/css/utility.css">
+  <link rel = "stylesheet" href = "/static/predict.css">
+  <link rel = "stylesheet" href = "/static/css/responsive.css">
+  
+  <style>
+    body{
+  text-align:center;
+  /* background-image: linear-gradient(-90deg, rgb(42, 42, 121), rgb(114, 34, 34)); */
+}
+
+.box {
+          background-color: transparent;
+          border-radius: 35px;
+          padding: 70px;
+          box-shadow: 0px 0px 10px 2px #ccc; 
+          text-align: left;
+      }
+#form-group{
+  display: grid;
+  grid-row-gap: 69px;
+  width:26%;
+  justify-content:center;
+  padding: 2%;
+  background-color: transparent; 
+  position:relative;
+  left:35%;
+ }
+ .input-label {
+          display: -webkit-inline-flex;
+          width: 150px;
+          text-align: left;
+          height: 9vh;
+        }
+ 
+.button{
+  margin:0 50% 0 40%; 
+  width: 20%;
+  background-color: rgb(7, 133, 252);
+  border:2px solid rgb(7, 13, 56);
+  color:white;
+  font-weight: 900;
+  border-radius: 8%;
+}
+
+/* @media(max-width:756px){
+  #form{
+  width:60%;
+  position:relative;
+  left:85%;
+  }
+}
+
+@media(max-width:362px){
+  #form{
+  width:80%;
+  position:relative;
+  left:5%;
+  }
+} */
+
+  </style>
+</head>
+
+<body>
+
+  <!-- navbar  -->
+  <nav class = "navbar">
+    <div class = "container flex">
+        <a href = "{{ url_for( 'index' ) }}" class = "site-brand">
+            Predict<span>ify</span>
+        </a>
+
+        <button type = "button" id = "navbar-show-btn" class = "flex">
+            <i class = "fas fa-bars"></i>
+        </button>
+        <div id = "navbar-collapse">
+            <button type = "button" id = "navbar-close-btn" class = "flex">
+                <i class = "fas fa-times"></i>
+            </button>
+            <ul class = "navbar-nav">
+                <li class = "nav-item">
+                    <a href = "{{ url_for( 'index' ) }}" class = "nav-link">HOME</a>
+                </li>
+                <li class = "nav-item">
+                    <a class="active" href = "{{ url_for( 'predict' ) }}" class = "nav-link">PREDICTION</a>
+                </li>
+                <li class = "nav-item">
+                    <a href = "{{ url_for('about') }}" class = "nav-link">ABOUT US</a>
+                </li>
+                <li class = "nav-item">
+                    <a href = "{{ url_for( 'contact' ) }}" class = "nav-link">CONTACT US</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- end of navbar  -->
+
+<!-- <prediction> -->
+
+    <style>
+        /* Popup container - can be anything you want */
+        .popup {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    
+        /* The actual popup */
+        .popup .popuptext {
+            visibility: hidden;
+            width: 360px;
+            background-color: rgb(251, 249, 249);
+            color: rgba(12, 6, 6, 0.918);
+            text-align: center;
+            border-radius: 40px;
+            padding: 18px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -80px;
+        }
+    
+        /* Popup arrow */
+        .popup .popuptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #FFFF00 transparent transparent transparent;
+        }
+    
+        /* Toggle this class - hide and show the popup */
+        .popup .show {
+            visibility: visible;
+            -webkit-animation: fadeIn 1s;
+            animation: fadeIn 1s;
+            cursor: pointer;
+        }
+    
+        /* Add animation (fade in the popup) */
+        @-webkit-keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+    
+            to {
+                opacity: 1;
+            }
+        }
+    
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+    
+            to {
+                opacity: 1;
+            }
+        }
+        </style>
+    
+    <script>
+    // When the user clicks on <div>, open the popup
+    function myFunction() {
+      var popup = document.getElementById("myPopup");
+      popup.classList.toggle("show");
+    }
+    </script>
+    
+    
+    <header class = "flex header-sm">
+        <div class = "container">
+          <div class="box">
+            <!-- <div class = "header-title"> -->
+          <!-- <p id="description"></p> -->
+          <form id="form"  action="{{ url_for('predict') }}" method="POST" style="margin-bottom: 20px;">
+              <div class="form-group">
+                  <label for="model_name">Select a Model:</label>
+                  <select name="model_name" id="model_name" style="margin-left:9.6%; margin-bottom:30px ; width:52%; font-size:1em;">
+                      <option value="ridge regression">Ridge Regression</option>
+                      <option value="random forest regressor">Random Forest Regressor</option>  
+                      <option value="support vector machine (svm)">Support Vector Machine</option>
+                      <option value="lasso regression">Lasso Regression</option>
+                      <option value="k-nearest neighbors (knn)">K-Nearest Neighbors</option>
+                  </select>&nbsp
+                  <button class="popup" onclick="myFunction()">i
+                      <span class="popuptext" id="myPopup" style="font-size: 1.5em;">Selact a model
+                      </span></button>
+              </div>
+          <div class="form-group">
+              <label class="input-label" for="Branch">Branch:</label>
+                      <select name="Branch" id="Branch" style="margin-left: 0%;width:50%;font-size: 1em;">
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                          <option value="C">C</option>
+                      </select>&nbsp
+                      <button class="popup" onclick="myFunction1()">i
+                          <span class="popuptext" id="myPopup1" style="font-size: 1.5em;">It represents the branch of the supermarket where the transaction took place. There are three branches identified as A, B, and C.
+                          </span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="City">City:</label>
+                      <select name="City" id="City" style="margin-left: 0%;width:50%;font-size: 1em;">
+                          <option value="Yangon">Yangon</option>
+                          <option value="Naypyitaw">Naypyitaw</option>
+                          <option value="Mandalay">Mandalay</option>
+                      </select>&nbsp
+                      <button class="popup" onclick="myFunction2()">i
+                          <span class="popuptext" id="myPopup2" style="font-size: 1.5em;">This column indicates the city or location of the supermarket branch.
+                              Factor!</span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="Customer type">Customer Type:</label>
+                      <select name="Customer type" id="Customer type" style="margin-left: 0%;width:50%;font-size: 1em;">
+                          <option value="Member">Member</option>
+                          <option value="Normal">Normal</option>
+                      </select>&nbsp
+                      <button class="popup" onclick="myFunction3()">i
+                          <span class="popuptext" id="myPopup3" style="font-size: 1.5em;">It categorizes customers as either "Member" (for customers using a member card) or "Normal" (for customers without a member card).
+                              Factor!</span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="Gender">Gender:</label>
+                      <select name="Gender" id="Gender" style="margin-left: 0%;width:50%;font-size: 1em;">
+                          <option value="Female">Female</option>
+                          <option value="Male">Male</option>
+                      </select>&nbsp
+                      <button class="popup" onclick="myFunction4()">i
+                          <span class="popuptext" id="myPopup4" style="font-size: 1.5em;">This field denotes the gender of the customer making the purchase, recorded as "Male" or "Female."
+                              Factor!</span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="Product line">Product Line:</label>
+                      <select name="Product line" id="Product line" style="margin-left: 0%;width:50%;font-size: 1em;">
+                          <option value="Health and beauty">Health and beauty</option>
+                          <option value="Electronic accessories">Electronic accessories</option>
+                          <option value="Home and lifestyle">Home and lifestyle</option>
+                          <option value="Sports and travel">Sports and travel</option>
+                          <option value="Food and beverages">Food and beverages</option>
+                          <option value="Fashion accessories">Fashion accessories</option>
+                      </select>&nbsp
+                      <button class="popup" onclick="myFunction5()">i
+                          <span class="popuptext" id="myPopup5" style="font-size: 1.5em;">It provides a general categorization of items into groups such as "Electronic Accessories," "Fashion Accessories," "Food and Beverages," "Health and Beauty," "Home and Lifestyle," and "Sports and Travel."
+                              Factor!</span></button>   
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="Unit price">Unit Price:</label>
+              <input type="text" name="Unit price" id="Unit price" style="width:48%;" required>&nbsp
+              <button class="popup" onclick="myFunction6()">i
+                  <span class="popuptext" id="myPopup6" style="font-size: 1.5em;">his is the price of each product in dollars ($).
+                      Factor!</span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="Quantity">Quantity:</label>
+              <input type="text" name="Quantity" id="Quantity" style="width:48%;" required>&nbsp
+              <button class="popup" onclick="myFunction7()">i
+                  <span class="popuptext" id="myPopup7" style="font-size: 1.5em;">It represents the number of products purchased by the customer.
+                      Factor!</span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="Tax 5%">Tax 5%:</label>
+              <input type="text" name="Tax 5%" id="Tax 5%" style="width:48%;" required>&nbsp
+              <button class="popup" onclick="myFunction8()">i
+                  <span class="popuptext" id="myPopup8" style="font-size: 1.5em;">This field includes a 5% tax fee applied to the customer's purchase.
+                      Factor!</span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="Payment">Payment Method:</label>
+                      <select name="Payment" id="Payment">
+                          <option value="Ewallet">Ewallet</option>
+                          <option value="Cash">Cash</option>
+                          <option value="Credit card">Credit card</option>
+                      </select>
+                      <button class="popup" onclick="myFunction9()">i
+                          <span class="popuptext" id="myPopup9" style="font-size: 1.5em;">It shows the payment method used by the customer for the purchase, with three options: "Cash," "Credit Card," and "Ewallet."
+                              Factor!</span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="cogs">COGS (Cost of Goods Sold):</label>
+                      <input type="text" name="cogs" id="cogs" style="width:48%;" required>&nbsp
+                      <button class="popup" onclick="myFunction10()">i
+                          <span class="popuptext" id="myPopup10" style="font-size: 1.5em;">The cost of goods sold for the products in dollars ($).
+                              Factor!</span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="gross income">Gross Income:</label>
+                      <input type="text" name="gross income" id="gross income" style="width:48%;" required>&nbsp
+                      <button class="popup" onclick="myFunction11()">i
+                          <span class="popuptext" id="myPopup11" style="font-size: 1.5em;">The gross income generated from the purchase.
+                              Factor!</span></button>
+          </div>
+          <div class="form-group">
+              <label class="input-label" for="Rating">Rating:</label>
+                      <input type="text" name="Rating" id="Rating" style="width:48%;" required>&nbsp
+                      <button class="popup" onclick="myFunction12()">i
+                          <span class="popuptext" id="myPopup12" style="font-size: 1.5em;">The customer's stratification rating of their overall shopping experience, recorded on a scale of 1 to 10.
+                              Factor!</span></button>
+          </div>
+                <!-- <center><input type="submit" class="btn btn-success p-2" value="Predict"></center> -->
+          <center><button type="submit" class="btn btn-success p-2" value="Predict">Predict</button></center>
+          </form>
+          </div>
+        </div>
+        <script>
+          // When the user clicks on div, open the popup
+          function myFunction() {
+              var popup = document.getElementById("myPopup");
+              popup.classList.toggle("show");
+          }
+          function myFunction1() {
+              var popup = document.getElementById("myPopup1");
+              popup.classList.toggle("show");
+          }
+          function myFunction2() {
+              var popup = document.getElementById("myPopup2");
+              popup.classList.toggle("show");
+          }
+          function myFunction3() {
+              var popup = document.getElementById("myPopup3");
+              popup.classList.toggle("show");
+          } function myFunction4() {
+              var popup = document.getElementById("myPopup4");
+              popup.classList.toggle("show");
+          }
+          function myFunction5() {
+              var popup = document.getElementById("myPopup5");
+              popup.classList.toggle("show");
+          }
+          function myFunction6() {
+              var popup = document.getElementById("myPopup6");
+              popup.classList.toggle("show");
+          }
+          function myFunction7() {
+              var popup = document.getElementById("myPopup7");
+              popup.classList.toggle("show");
+          }
+          function myFunction8() {
+              var popup = document.getElementById("myPopup8");
+              popup.classList.toggle("show");
+          }
+          function myFunction9() {
+              var popup = document.getElementById("myPopup9");
+              popup.classList.toggle("show");
+          }
+          function myFunction10() {
+              var popup = document.getElementById("myPopup10");
+              popup.classList.toggle("show");
+          }
+          function myFunction11() {
+              var popup = document.getElementById("myPopup11");
+              popup.classList.toggle("show");
+          }
+          function myFunction12() {
+              var popup = document.getElementById("myPopup12");
+              popup.classList.toggle("show");
+          }
+      
+      </script>
+      
+      </header>
+
+<style>
+    #Foter {
+        justify-content: center;
+        position: bottom;
+        background: #111;
+        width: 100%;
+        /* padding: 5px; */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.13);
+        z-index: 100;
+    }
+    .foter {
+        padding: 15px 20px 0 20px;
+        position: relative;
+        text-align: center;
+    }
+    
+    .foter h3 {
+        margin: 10px 40px;
+        font-size: 24px;
+        font-weight: 500;
+        text-align: center;
+        color: #fff;
+    }
+    
+    
+    .foter p {
+        margin: 30px 40px;
+        font-size: 18px;
+        color: silver;
+        text-align: center;
+        letter-spacing: 1px;
+    }
+    .socials {
+        margin: 0;
+        padding: 10px;
+        list-style: none;
+        justify-content: center;
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .socials li {
+        margin: 10px;
+        padding: 10px 15px;
+        border-radius: 50%; 
+        /* border: 1px solid #fff; */
+     } 
+    
+     .socials a {
+        text-decoration: none;
+        color: #2842d4;
+        padding: 5px 0;
+    }
+    
+    .socials a i {
+        font-size: 38px;
+        transition: color .3s linear;
+        padding-left: 15px;
+    }
+    
+    .socials a:hover .fa {
+        color: #e3e4f0;
+        transition: color .1s linear;
+    } 
+    
+    
+    /* Text */
+    
+    
+    .last {
+        padding: 1px;
+        margin: 0;
+    }
+    
+    .last p {
+        font-size: 18px;
+        letter-spacing: .5px;
+        text-align: center;
+        color: gray;
+    }
+    
+    .last span {
+        color: #8490ff;
+    }
+    </style>
+    
+         <footer id="Footer">
+    
+          <div class="foter">
+            <div class="last">
+                <p>A Machine learning Sales Prediction web-application, build with flask.<br><br>
+                 <strong>&copy; All rights reserved by Samay Patel | Devoloped by Samay Patel | 2024</strong> </p>
+            </div>
+      
+        </footer> 
+    
+<!-- js -->
+<script src = "/static/js/script.js"></script>
+
+</body>
+</html>

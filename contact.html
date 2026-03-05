@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="shortcut icon" href="{{ url_for('static', filename='logo.jpeg') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Super Market Sales Prediction</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <!-- font awesome cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+  
+  <!-- fonts -->
+  <link rel = "stylesheet" href = "/static/font/fonts.css">
+  <!-- normalize css -->
+  <link rel = "stylesheet" href = "/static/css/normalize.css">
+  <!-- custom css -->
+  <link rel = "stylesheet" href = "/static/css/utility.css">
+  <link rel = "stylesheet" href = "/static/contact.css">
+  <link rel = "stylesheet" href = "/static/css/responsive.css">
+</head>
+
+<body>
+
+
+  <!-- navbar  -->
+  <nav class = "navbar">
+    <div class = "container flex">
+        <a href = "{{ url_for( 'index' ) }}" class = "site-brand">
+            Predict<span>ify</span>
+        </a>
+
+        <button type = "button" id = "navbar-show-btn" class = "flex">
+            <i class = "fas fa-bars"></i>
+        </button>
+        <div id = "navbar-collapse">
+            <button type = "button" id = "navbar-close-btn" class = "flex">
+                <i class = "fas fa-times"></i>
+            </button>
+            <ul class = "navbar-nav">
+                <li class = "nav-item">
+                    <a href = "{{ url_for( 'index' ) }}" class = "nav-link">HOME</a>
+                </li>
+                <li class = "nav-item">
+                    <a href = "{{ url_for( 'start' ) }}" class = "nav-link">PREDICTION</a>
+                  </li>
+                <li class = "nav-item">
+                    <a href = "{{ url_for('about') }}" class = "nav-link">ABOUT US</a>
+                </li>
+                <li class = "nav-item">
+                    <a class="active" href = "{{ url_for( 'contact' ) }}" class = "nav-link">CONTACT US</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- end of navbar  -->
+
+  
+  <header class = "flex header-sm">
+    <div class = "container">
+        <div class = "header-title">
+            <h1>Contact</h1>
+            <p>Sales predictions is the process of estimating future revenue by predicting how much of a product or service will sell in the next week, month, quarter, or year.</p>
+        </div>
+    </div>
+</header>
+<!-- header -->
+
+<!-- contact section -->
+<section id = "contact" class = "py-4">
+    <div class = "container">
+        <div class = "title-wrap">
+            <span class = "sm-title">get in touch with us</span>
+            <h2 class = "lg-title">contact us</h2>
+        </div>
+    </div>
+</section>   
+        
+
+<div class = "container2">
+        <div class = "contact-center my-2">
+                <div class = "contact-item">
+                    <span class = "contact-icon flex">
+                        <i class = "fa fa-phone-alt"></i>
+                    </span>
+                    <div>
+                        <span>Phone</span>
+                        <p class = "text"><a href="tel:+91 6355551681"></a>+91 6355551681</p>
+                    </div>
+                </div>
+                <div class = "contact-item">
+                    <span class = "contact-icon flex">
+                        <i class = "fa fa-map-marked-alt"></i>
+                    </span>
+                    <div>
+                        <span>Address</span>
+                        <p class = "text"><a href="https://maps.app.goo.gl/Ha5g8NEHspzTmcD66">Alpha college of engineering and technology khatraj,kalol</a></p>
+                    </div>
+                </div>
+                <div class = "contact-item">
+                    <span class = "contact-icon flex">
+                        <i class = "fa fa-envelope"></i>
+                    </span>
+                    <div>
+                        <span>E-mail</span>
+                        <p class = "text"><a href="https://mail.google.com/mail/u/0/#inbox">patelsamay071@gmail.com</a></p>
+                    </div>
+                </div>
+        </div>
+        
+            <style>
+              .container2{
+                width: 100%;
+                /* height: 100%; */
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: -10rem;
+                justify-content: center;
+                align-items: center;
+                margin-top: 30px;
+                margin-left: 10px;
+              }
+                body2{
+                background: linear-gradient(75deg, #2980b9, #8e44ad);
+                font-family: montserrat;
+              }
+              .container3{
+                position: relative;
+                top: 25%;
+                /* bottom: 50%; */
+                left: 40%;
+                transform: translate(-50%, -50%);
+                height: 430px;
+                width: 350px;
+                text-align: center;
+                border-radius: 5px;
+              }
+              .front-face, .back-face{
+                position: absolute;
+                width: 100%;
+                height: 110%;
+                background: #ebf8f9;
+                border-radius: 5px;
+                backface-visibility: hidden;
+                box-shadow: 0 2px 3px rgba(0,0,0,.2);
+                transition: transform .4s linear;
+              }
+              .cover1{
+                background: linear-gradient(75deg, #8e44ad, #2980b9);
+                height: 115px;
+                width: 100%;
+                border-radius: 5px 5px 0 0;
+                align-items: center;
+              }
+              .profile1{
+                height: 110px;
+                width: 115px;
+                border-radius: 50%;
+                padding: 5px;
+                background: white;
+                margin-top: 40px;
+              }
+              .name{
+                font-size: 30px;
+                padding-top: 70px;
+              }
+              .tag{
+                padding: 5px 0;
+              }
+              .about2{
+                margin-top: 10px;
+                padding: 0px 35px;
+                font-size: 15px;
+              }
+              /* h1{
+                color: #0d0d0d;
+              } */
+              p1{
+                padding: 20px;
+                color: #262626;
+                text-align: justify;
+              }
+              j{
+                font-size: 30px;
+                padding-left: 20px;
+                cursor: pointer;
+              }
+              j.fa-facebook-square{
+                padding-left: 0;
+                color: #4267b2;
+              }
+              j.fa-twitter-square{color: #38A1F3}
+              j.fa-instagram-square{color: #d72888}
+              j.fa-youtube-square{color: #eb1c14}
+              j.fa-linkedin-square{color: #0077B5}
+              
+              .back-face{
+                transform: perspective(800px) rotateY(-180deg);
+              }
+              .front-face{
+                transform: perspective(800px) rotateY(0deg);
+              }
+              .container3:hover > .back-face{
+                transform: perspective(800px) rotateY(0deg);
+              }
+              .container3:hover > .front-face{
+                transform: perspective(800px) rotateY(180deg);
+              }
+              </style>
+
+            <div class="container3">
+                <div class="front-face">
+                  <div class="cover1">
+                    <img src="/static/samay.jpeg" class="profile1">
+                  </div>
+                  <div class="name">Samay Patel</div><br>
+                  <!-- <div class="tag">Python Devloper</div> -->
+                  <p1 class="about2"><center>Enrollment No. : 200510116001</center><br><br>
+                    Studying in Alpha College of Engineering And Technology.<br><br>
+                    Python With Machine Learning and making a Project On Super market sale sprediction.<br><br>
+                    
+                  </p1>
+                </div>
+                <div class="back-face">
+                  <h1>Sales Prediction</h1>
+                  <p>Supermarkets rely on accurate sales predictions to optimize inventory management, staffing, and marketing strategies. Machine learning offers a powerful solution to forecast sales with high accuracy, enabling supermarkets to make data-driven decisions and enhance overall business performance.<br>
+                     In this project, we will use Python and machine learning algorithms to analyze historical sales data, build a predictive model, and make sales predictions for a supermarket. By the end of this project, we aim to deliver a robust and reliable sales prediction system that can help supermarkets improve sales forecasting and drive business growth.</p>
+                  <j class="fab fa-facebook-square"></j>
+                  <j class="fab fa-twitter-square"></j>
+                  <j class="fab fa-instagram-square"></j>
+                  <j class="fab fa-youtube-square"></j>
+                  <j class="fab fa-linkedin-square"></j>
+          
+                </div>
+            </div>
+</div>
+
+<!-- end of contact section -->
+
+
+
+<!-- footer -->
+<footer class = "py-4">
+    <div class = "container footer-row">
+        <div class = "footer-item">
+            <!-- <a href = "index.html" class = "site-brand">
+                Sales<span>Prediction</span>
+            </a> -->
+            <h2>Sales Prediction</h2>
+            <p class = "text">Machine learning helps sales forecasting by using algorithms to analyze historical sales data and make predictions about future sales. It uses time-series analysis, regression analysis, and decision trees to generate more accurate forecasts based on multiple factors.</p>
+        </div>
+
+        <div class = "footer-item">
+            <h2>Follow us on: </h2>
+            <ul class = "social-links">
+                <li>
+                    <a href = "https://www.facebook.com/Samay.patel.07?mibextid=LQQJ4d">
+                        <i class = "fab fa-facebook-f"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://www.instagram.com/samay.patel_07?igsh=eGRvZ3B5OWNpbDdw&utm_source=qr">
+                        <i class = "fab fa-instagram"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://twitter.com/patelsamay71">
+                        <i class = "fab fa-twitter"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://www.linkedin.com/in/samay-patel-8649862a7?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app">
+                        <i class = "fab fa-linkedin"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://github.com/Samay-P07/desktop-tutorial">
+                        <i class = "fab fa-github"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class = "footer-item">
+            <h2>Popular Super Markets:</h2>
+            <ul>
+                <li><a href = "https://www.google.com/search?q=Reliance+mall+ahmedabad&sca_esv=515e485ef43ad46e&sca_upv=1&sxsrf=ACQVn0-1mpiTupzlllwCf47Se5T5kLGI-A%3A1713452539751&ei=-zUhZue2LdrdseMP7eaBgA8&ved=0ahUKEwinoOKPhMyFAxXabmwGHW1zAPAQ4dUDCBA&uact=5&oq=Reliance+mall+ahmedabad&gs_lp=Egxnd3Mtd2l6LXNlcnAiF1JlbGlhbmNlIG1hbGwgYWhtZWRhYmFkMgoQIxiABBgnGIoFMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHkipNFDeBViRDXABeAGQAQCYAeMBoAGZBaoBAzItM7gBA8gBAPgBAZgCBKACugXCAgoQABiwAxjWBBhHwgINEAAYsAMY1gQYRxjJA8ICDhAAGIAEGLADGJIDGIoFwgIHECMYsAIYJ8ICBxAAGIAEGA3CAgYQABgNGB7CAggQABgFGA0YHsICCBAAGAgYDRgewgIKEAAYgAQYQxiKBcICBBAAGB7CAgYQABgFGB6YAwCIBgGQBgqSBwUxLjAuM6AHvhk&sclient=gws-wiz-serp">Reliance mall</a></li>
+                <li><a href = "https://www.dmartindia.com/">D-Mart</a></li>
+                <li><a href = "https://bigbazaar.com.co/">Big Bazaar</a></li>
+                <li><a href = "https://starbazaarindia.com/pages/fabsta">Star Bazaar</a></li>
+                <li><a href = "https://instamart.com/">Insta Mart</a></li>
+            </ul>
+        </div>
+
+        <div class = "footer-item">
+            <strong><p>&copy;  All rights reserved by Samay Patel | Devoloped by Samay Patel | 2024 </p></strong>
+        </div>
+
+    </div>
+</footer>
+<!-- end of footer -->
+
+<!-- js -->
+<script src = "../static/js/script.js"></script>
+<script>
+    
+</script>
+</body>
+</html>

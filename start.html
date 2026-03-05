@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.jpeg') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Super Market Sales Prediction</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- font awesome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+      <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <link rel = "stylesheet" href = "/static/start.css">
+    <!-- fonts -->
+    <link rel = "stylesheet" href = "/static/font/fonts.css">
+    <!-- normalize css -->
+    <link rel = "stylesheet" href = "/static/css/normalize.css">
+    <!-- custom css -->
+    <link rel = "stylesheet" href = "/static/css/utility.css">
+    <link rel = "stylesheet" href = "/static/css/responsive.css">
+  </head>
+
+<body> 
+        <!-- navbar  -->
+        <nav class = "navbar">
+          <div class = "container flex">
+              <a href = "{{ url_for( 'index' ) }}" class = "site-brand">
+                Predict<span>ify</span>
+              </a>
+      
+              <button type = "button" id = "navbar-show-btn" class = "flex">
+                  <i class = "fas fa-bars"></i>
+              </button>
+              <div id = "navbar-collapse">
+                  <button type = "button" id = "navbar-close-btn" class = "flex">
+                      <i class = "fas fa-times"></i>
+                  </button>
+                  <ul class = "navbar-nav">
+                      <li class = "nav-item">
+                          <a href = "{{ url_for( 'index' ) }}" class = "nav-link">HOME</a>
+                      </li>
+                      <li class = "nav-item">
+                        <a class="active" href = "{{ url_for( 'start' ) }}" class = "nav-link">PREDICTION</a>
+                      </li>
+                      <li class = "nav-item">
+                          <a href = "{{ url_for('about') }}" class = "nav-link">ABOUT US</a>
+                      </li>
+                      <li class = "nav-item">
+                          <a href = "{{ url_for( 'contact' ) }}" class = "nav-link">CONTACT US</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+      <!-- end of navbar  -->
+
+
+<header class = "flex">
+    <div class = "container">
+        <div class = "header-title">
+            <div class = "header-form">
+            <span class="byline"></span> 
+             <ul class="actions">
+                <!-- <form class = "flex"> -->
+                <h2><li><a href="{{url_for( 'predict' )}}" input type="submit" class="btn"
+                     value = "Search">START PROCESS</a></li>
+                </h2>
+                </form>
+            </div>
+             </ul>
+            <p></p>   
+        </div>
+    </div>
+</header>
+
+
+<style>
+    body1{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins";
+    }
+    .buton
+	{
+		display: inline-block;
+		padding: 0em 1.5em;
+		background: #009e47;
+		letter-spacing: 0.20em;
+		line-height: 4em;
+		text-decoration: none;
+		text-transform: uppercase;
+		font-weight: 400;
+		font-size: 1em;
+		color: #FFF;
+	}
+	
+	.buton:before
+	{
+		display: inline-block;
+		background: #FFC31F;
+		margin-right: 1em;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		border-radius: 20px;
+		text-align: center;
+		color: #272925;
+	}
+	
+</style>
+
+<div style="background-color: #F7cac9">
+		<div id="page" class="container" style="background: linear-gradient(60deg, rgba(2,0,36,1) 0%, rgba(171,184,189,1) 56%, rgba(0,232,255,1) 100%);">
+			<div class="container">
+				<h2 align="center" style="color: #0502b6; font-size: 2em;padding-left: 2em;">SUPER MARKET INFORMATION</h1>
+				</h2>
+                <h3 align="center" style="margin-top:3%;color: #FFFFFF">Supermarkets are food retailers that offer a full line of grocery items, produce, meat, seafood, canned goods, general merchandise (non-food items), health and beauty items, and may offer bakery, deli, or pharmacy services. These stores can range in size, carrying between 15,000 to 16,000 product SKUs.</h3>
+                <h3 align="center" style="margin-top:3%;color: #FFFFFF">The India grocery market size is estimated to increase by USD 289.29 billion and grow at a CAGR of 8.06% between 2022 and 2027. The rise in disposable income among consumers in India is the key factor driving the market growth.</h3>
+                <div>
+					<br>
+                    <ul class="actions">
+						<li><center><a href="https://www.technavio.com/report/grocery-market-in-india-industry-analysis#:~:text=The%20India%20grocery%20market%20size,factor%20driving%20the%20market%20growth." class="buton"
+								style="margin-bottom: 3%;">Know more </a></center></li>
+				</div>
+			</div>
+            <div>
+				<div class="title">
+					<center><h2 style="color: #FFFFFF">Indias popular Super market market Information wikipedia.</h2></center>
+					</div>
+				<div>
+                    <br>
+                    <ul class="actions">
+                    <li><center><a href="https://en.wikipedia.org/wiki/Category:Supermarkets_of_India"
+                         class="buton" style="margin-bottom: 2%;">INFORMATION</a></center></li>
+            
+				</div>
+			</div>
+			<div>
+				<div class="title">
+					<center><h2 style="color: #FFFFFF">A Comprehensive View of Super Market Operation.</h2></center>
+					</div>
+				<div>
+                    <br>
+					<ul class="actions">
+						<li><center><a href="https://www.bptrends.com/supermarket-operations/#" class="buton"
+								style="margin-bottom: 3%;">Know more </a></center></li>
+				</div>
+			</div>
+            <h3 align="center" style="margin-bottom:1%; margin-bottom: 2%; color: #FFFFFF">The supermarket sources products from suppliers and then sells those products to customers. The supermarket adds value by providing a convenient location for customers to shop, by offering a wide variety of products, and by providing competitive prices.</h3>
+				
+		</div>
+	</div>
+
+    <style>
+    #Foter {
+    justify-content: center;
+    position: bottom;
+    background: #111;
+    width: 100%;
+    /* padding: 5px; */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.13);
+    z-index: 100;
+}
+    .last {
+        padding: 1px;
+        margin: 0;
+    }
+    
+    .last p {
+        font-size: 18px;
+        letter-spacing: .5px;
+        text-align: center;
+        color: gray;
+    }
+    
+    .last span {
+        color: #8490ff;
+    }
+    </style>
+    <div id="Foter">
+    <div class="last">
+        <p>A Machine learning Sales Prediction web-application, build with flask.<br><br>
+         <strong>&copy; All rights reserved by Samay Patel | Devoloped by Samay Patel | 2024</strong> </p>
+    </div>    
+    </div>
+
+    <!-- js -->
+<script src = "/static/js/script.js"></script>
+
+</body>
+</html>
