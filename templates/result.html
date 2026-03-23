@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitPulse | Forecast Result</title>
+    
+    <!-- Fonts && Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+
+        .result-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px); /* accounting for navbar */
+            padding: 8rem 2rem 4rem;
+        }
+
+        .result-card {
+            background: var(--surface);
+            max-width: 600px;
+            width: 100%;
+            padding: 4rem 3rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            text-align: center;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #10B981; /* Emerald 500 */
+            margin-bottom: 2rem;
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        @keyframes bounceIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .result-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .partner-section {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .partner-section h4 {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .iframe-container {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" style="background: white;">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                Profit<span>Pulse</span>
+            </a>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('start') }}" class="nav-link active">Prediction</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About Us</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="result-container">
+        <div class="result-card animate-fade-up">
+            <i class="fas fa-check-circle success-icon"></i>
+            
+            <div class="result-title">Forecast Result</div>
+            
+            <!-- Output from Flask Model -->
+            <div class="result-value">
+                {% if prediction %}
+                    {{ prediction | round(2) }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </div>
+
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 400px; margin: 0 auto;">
+                The machine learning model has successfully processed the inputs and generated the projected performance metric.
+            </p>
+
+            <div class="action-buttons">
+                <a href="{{ url_for('predict') }}" class="btn btn-primary" style="padding: 1rem 2rem;">
+                    <i class="fas fa-redo-alt mr-2" style="margin-right: 8px;"></i> Run Another Test
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-outline" style="padding: 1rem 2rem;">
+                    Back to Home
+                </a>
+            </div>
+
+            <!-- Existing Iframe Component -->
+            <div class="partner-section">
+                <h4>Partner Insights: Supermarkets Near You</h4>
+                <div class="iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=supermarkets&t=&z=13&ie=UTF8&iwloc=&output=embed" title="Supermarkets near you" width="100%" height="300" style="border: none; display: block;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    
+    <script>
+        // Mobile menu toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if(mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                if(navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.width = '100%';
+                    navLinks.style.background = 'rgba(255,255,255,0.95)';
+                    navLinks.style.padding = '1rem';
+                    navLinks.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

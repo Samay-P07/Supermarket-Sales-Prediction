@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitPulse | About Us</title>
+    
+    <!-- Fonts && Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <style>
+        .page-header {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(34, 197, 94, 0.05), transparent 70%);
+        }
+
+        .about-container {
+            max-width: 1100px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border: 2px dashed var(--primary);
+            border-radius: calc(var(--radius-xl) + 10px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .about-text {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                Profit<span>Pulse</span>
+            </a>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('start') }}" class="nav-link">Prediction</a>
+                <a href="{{ url_for('about') }}" class="nav-link active">About Us</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+        <div class="section-title animate-fade-up">
+            <h2>Our Story</h2>
+            <p>Learn more about our mission and why supermarket sales prediction is critical to operational success today.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="section pt-0">
+        <div class="about-container">
+            <div class="about-image-wrapper animate-fade-up">
+                <!-- Using a standard placeholder or the original image if available -->
+                <img src="{{ url_for('static', filename='about.jpeg') }}" alt="Data analysis abstract" class="about-image" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800'">
+            </div>
+            
+            <div class="about-content animate-fade-up" style="animation-delay: 0.2s;">
+                <h3>The Power of Prediction</h3>
+                <p class="about-text">
+                    The primary goal of supermarket sales prediction is to leverage historical sales data, product attributes, and external factors to accurately forecast future sales trends. By developing robust predictive models using advanced machine learning algorithms, our objective is to provide supermarkets with actionable insights.
+                </p>
+                <p class="about-text">
+                    These insights empower supermarkets to anticipate customer demand, optimize inventory levels, efficiently allocate resources, and strategically plan marketing initiatives. Ultimately, you can enhance operational efficiency, reduce costs, maximize revenue, and improve the overall shopping experience.
+                </p>
+                <a href="{{ url_for('contact') }}" class="btn btn-primary mt-4">Get in Touch <i class="fas fa-arrow-right ml-2" style="margin-left:8px;"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                    <div style="background: white; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--primary); margin-right: 0.75rem;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="brand" style="color: white; margin: 0;">
+                        Profit<span style="background: linear-gradient(135deg, #818CF8, #F472B6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pulse</span>
+                    </a>
+                </div>
+                <p>Machine learning-powered sales forecasting tool that uses historical data and advanced algorithms to accurately predict future trends and business performance.</p>
+                <div class="social-links">
+                    <a href="https://github.com/Samay-P07" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/samaypatel7" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('start') }}">Prediction Interface</a>
+                    <a href="{{ url_for('about') }}">About ProfitPulse</a>
+                    <a href="{{ url_for('contact') }}">Contact Support</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Market Leaders</h3>
+                <div class="footer-links">
+                    <a href="http://relianceretail.com/" target="_blank">Reliance Retail</a>
+                    <a href="https://www.dmartindia.com/" target="_blank">D-mart</a>
+                    <a href="https://www.bigbasket.com/" target="_blank">Bigbasket</a>
+                    <a href="https://blinkit.com/" target="_blank">Blinkit</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Developed by Samay Patel. Supermarket Sales Prediction.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if(mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                if(navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.width = '100%';
+                    navLinks.style.background = 'rgba(255,255,255,0.95)';
+                    navLinks.style.padding = '1rem';
+                    navLinks.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

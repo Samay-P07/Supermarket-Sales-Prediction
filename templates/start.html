@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitPulse | Market Insights</title>
+    
+    <!-- Fonts && Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <style>
+        .page-header {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: radial-gradient(circle at top, rgba(79, 70, 229, 0.05), transparent 70%);
+        }
+
+        .insight-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+        }
+
+        .insight-card {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .insight-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .insight-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .insight-title {
+            font-size: 1.5rem;
+        }
+
+        .insight-text {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .predict-cta {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: var(--radius-xl);
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .predict-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .predict-cta p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.125rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                Profit<span>Pulse</span>
+            </a>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('start') }}" class="nav-link active">Prediction</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About Us</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+        <div class="section-title animate-fade-up">
+            <h2>Super Market Information</h2>
+            <p>Understand the scale, operation, and sheer complexity of modern supermarket networks before you jump into predictions.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="section pt-0">
+        <div class="insight-section">
+            
+            <div class="insight-card animate-fade-up">
+                <i class="fas fa-shopping-basket insight-icon"></i>
+                <div>
+                    <h3 class="insight-title">What is a Supermarket?</h3>
+                    <p class="insight-text">Supermarkets are food retailers that offer a full line of grocery items, produce, meat, seafood, canned goods, general merchandise (non-food items), health and beauty items, and may offer bakery, deli, or pharmacy services. These stores can range in size, carrying between 15,000 to 16,000 product SKUs.</p>
+                </div>
+            </div>
+
+            <div class="insight-card animate-fade-up" style="animation-delay: 0.1s;">
+                <i class="fas fa-chart-pie insight-icon"></i>
+                <div>
+                    <h3 class="insight-title">Market Growth in India</h3>
+                    <p class="insight-text">The India grocery market size is estimated to increase by USD 289.29 billion and grow at a CAGR of 8.06% between 2022 and 2027. The rise in disposable income among consumers in India is the key factor driving the market growth.</p>
+                </div>
+                <a href="https://www.technavio.com/report/grocery-market-in-india-industry-analysis" target="_blank" class="btn btn-outline" style="align-self: flex-start; margin-top: auto;">Read Full Report <i class="fas fa-external-link-alt ml-2" style="margin-left: 8px;"></i></a>
+            </div>
+
+            <div class="insight-card animate-fade-up" style="animation-delay: 0.2s;">
+                <i class="fas fa-network-wired insight-icon"></i>
+                <div>
+                    <h3 class="insight-title">Comprehensive View of Operations</h3>
+                    <p class="insight-text">The supermarket sources products from suppliers and then sells those products to customers. The supermarket adds value by providing a convenient location for customers to shop, by offering a wide variety of products, and by providing competitive prices.</p>
+                </div>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://en.wikipedia.org/wiki/Category:Supermarkets_of_India" target="_blank" class="btn btn-outline">Wikipedia Database</a>
+                    <a href="https://en.wikipedia.org/wiki/Supermarket#Operations" target="_blank" class="btn btn-outline">Operations Knowledge</a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="predict-cta animate-fade-up" style="animation-delay: 0.4s;">
+            <h2>Ready to Forecast?</h2>
+            <p>You have seen the numbers. Now use our robust machine learning models to forecast real margins, incomes, and trends.</p>
+            <a href="{{ url_for('predict') }}" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2.5rem;">
+                <i class="fas fa-cogs mr-2" style="margin-right: 12px;"></i> Initialize Prediction Engine
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                    <div style="background: white; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--primary); margin-right: 0.75rem;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="brand" style="color: white; margin: 0;">
+                        Profit<span style="background: linear-gradient(135deg, #818CF8, #F472B6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pulse</span>
+                    </a>
+                </div>
+                <p>Machine learning-powered sales forecasting tool that uses historical data and advanced algorithms to accurately predict future trends and business performance.</p>
+                <div class="social-links">
+                    <a href="https://github.com/Samay-P07" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/samaypatel7" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('start') }}">Prediction Interface</a>
+                    <a href="{{ url_for('about') }}">About ProfitPulse</a>
+                    <a href="{{ url_for('contact') }}">Contact Support</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Market Leaders</h3>
+                <div class="footer-links">
+                    <a href="http://relianceretail.com/" target="_blank">Reliance Retail</a>
+                    <a href="https://www.dmartindia.com/" target="_blank">D-mart</a>
+                    <a href="https://www.bigbasket.com/" target="_blank">Bigbasket</a>
+                    <a href="https://blinkit.com/" target="_blank">Blinkit</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Developed by Samay Patel. Supermarket Sales Prediction.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if(mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                if(navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.width = '100%';
+                    navLinks.style.background = 'rgba(255,255,255,0.95)';
+                    navLinks.style.padding = '1rem';
+                    navLinks.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

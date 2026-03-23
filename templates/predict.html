@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitPulse | Prediction Engine</title>
+    
+    <!-- Fonts && Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <style>
+        body {
+            background-color: #f1f5f9;
+        }
+
+        .page-header {
+            padding: 8rem 2rem 3rem;
+            text-align: center;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: -4rem auto 6rem;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: 3rem;
+            position: relative;
+            z-index: 10;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-header h3 {
+            font-size: 1.75rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Error Message Display */
+        .error-message {
+            background: #FEE2E2;
+            color: #DC2626;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #FCA5A5;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tooltip implementation */
+        .tooltip-wrapper {
+            position: relative;
+            display: inline-flex;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .tooltip-icon {
+            font-size: 0.875rem;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .tooltip-wrapper:hover .tooltip-icon {
+            opacity: 1;
+        }
+
+        .tooltip-content {
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--text-main);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            font-weight: 400;
+            width: max-content;
+            max-width: 250px;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .tooltip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: var(--text-main) transparent transparent transparent;
+        }
+
+        .tooltip-wrapper:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background-color: #f8fafc;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-control:focus {
+            background-color: var(--surface);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        /* Select specific */
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748B' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px 12px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.125rem;
+            margin-top: 3rem;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-container {
+                padding: 1.5rem;
+                margin-top: -2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                Profit<span>Pulse</span>
+            </a>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('start') }}" class="nav-link active">Prediction</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About Us</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header background -->
+    <div class="page-header pb-24">
+    </div>
+
+    <!-- Prediction Form -->
+    <div class="form-container animate-fade-up">
+        <div class="form-header">
+            <h3>Machine Learning Engine</h3>
+            <p>Enter the data parameters below to instantly forecast performance metrics.</p>
+        </div>
+
+        {% if error_message %}
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i> {{ error_message }}
+            </div>
+        {% endif %}
+
+        <form id="form" action="{{ url_for('predict') }}" method="POST">
+            
+            <div class="form-group full-width" style="margin-bottom: 2rem;">
+                <label class="form-label">
+                    Select ML Model
+                    <span class="tooltip-wrapper">
+                        <i class="fas fa-info-circle tooltip-icon"></i>
+                        <span class="tooltip-content">Choose the algorithm that will process your input data. Ridge and SVM are recommended for this dataset.</span>
+                    </span>
+                </label>
+                <select name="model_name" id="model_name" class="form-control" style="border-width: 2px; border-color: var(--primary);">
+                    <option value="ridge regression">Ridge Regression</option>
+                    <option value="random forest regressor">Random Forest Regressor</option>  
+                    <option value="support vector machine (svm)">Support Vector Machine (SVM)</option>
+                    <option value="lasso regression">Lasso Regression</option>
+                    <option value="k-nearest neighbors (knn)">K-Nearest Neighbors (KNN)</option>
+                </select>
+            </div>
+
+            <div class="form-grid">
+                <!-- Group 1 -->
+                <div class="form-group">
+                    <label class="form-label" for="Branch">
+                        Branch ID
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">Branch of the supermarket where transaction took place. (A, B, C)</span></span>
+                    </label>
+                    <select name="Branch" id="Branch" class="form-control">
+                        <option value="A">Branch A</option>
+                        <option value="B">Branch B</option>
+                        <option value="C">Branch C</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="City">
+                        Location City
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">The city or location of the supermarket branch.</span></span>
+                    </label>
+                    <select name="City" id="City" class="form-control">
+                        <option value="Yangon">Yangon</option>
+                        <option value="Naypyitaw">Naypyitaw</option>
+                        <option value="Mandalay">Mandalay</option>
+                    </select>
+                </div>
+
+                <!-- Group 2 -->
+                <div class="form-group">
+                    <label class="form-label" for="Customer type">
+                        Customer Type
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">Categorizes customers as Member or Normal (without card).</span></span>
+                    </label>
+                    <select name="Customer type" id="Customer type" class="form-control">
+                        <option value="Member">Member</option>
+                        <option value="Normal">Normal</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="Gender">
+                        Gender
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">Gender of the customer making the purchase.</span></span>
+                    </label>
+                    <select name="Gender" id="Gender" class="form-control">
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                    </select>
+                </div>
+
+                <!-- Group 3 -->
+                <div class="form-group">
+                    <label class="form-label" for="Product line">
+                        Product Category
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">General categorization of items purchased.</span></span>
+                    </label>
+                    <select name="Product line" id="Product line" class="form-control">
+                        <option value="Health and beauty">Health and beauty</option>
+                        <option value="Electronic accessories">Electronic accessories</option>
+                        <option value="Home and lifestyle">Home and lifestyle</option>
+                        <option value="Sports and travel">Sports and travel</option>
+                        <option value="Food and beverages">Food and beverages</option>
+                        <option value="Fashion accessories">Fashion accessories</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="Payment">
+                        Payment Method
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">Shows the payment method used by the customer.</span></span>
+                    </label>
+                    <select name="Payment" id="Payment" class="form-control">
+                        <option value="Ewallet">E-wallet</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Credit card">Credit card</option>
+                    </select>
+                </div>
+
+                <!-- Numerical Inputs Group -->
+                <div class="form-group">
+                    <label class="form-label" for="Unit price">
+                        Unit Price ($)
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">The price of a single product in dollars ($).</span></span>
+                    </label>
+                    <input type="number" step="0.01" name="Unit price" id="Unit price" class="form-control" placeholder="e.g. 74.50" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="Quantity">
+                        Quantity
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">Number of products purchased in this transaction.</span></span>
+                    </label>
+                    <input type="number" name="Quantity" id="Quantity" class="form-control" placeholder="e.g. 5" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="Tax 5%">
+                        Tax 5% ($)
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">5% tax fee applied to the customer's purchase.</span></span>
+                    </label>
+                    <input type="number" step="0.01" name="Tax 5%" id="Tax 5%" class="form-control" placeholder="e.g. 18.20" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="cogs">
+                        COGS ($)
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">Cost of Goods Sold in dollars.</span></span>
+                    </label>
+                    <input type="number" step="0.01" name="cogs" id="cogs" class="form-control" placeholder="e.g. 360.50" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="gross income">
+                        Gross Income ($)
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">Gross income generated from the purchase.</span></span>
+                    </label>
+                    <input type="number" step="0.01" name="gross income" id="gross income" class="form-control" placeholder="e.g. 15.50" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="Rating">
+                        Customer Rating (1.0-10.0)
+                        <span class="tooltip-wrapper"><i class="fas fa-info-circle tooltip-icon"></i><span class="tooltip-content">The stratification rating of overall shopping experience.</span></span>
+                    </label>
+                    <input type="number" step="0.1" min="1" max="10" name="Rating" id="Rating" class="form-control" placeholder="e.g. 8.5" required>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-bolt"></i> Generate Forecast Prediction
+            </button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                    <div style="background: white; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--primary); margin-right: 0.75rem;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="brand" style="color: white; margin: 0;">
+                        Profit<span style="background: linear-gradient(135deg, #818CF8, #F472B6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pulse</span>
+                    </a>
+                </div>
+                <p>Machine learning-powered sales forecasting tool that uses historical data and advanced algorithms to accurately predict future trends and business performance.</p>
+                <div class="social-links">
+                    <a href="https://github.com/Samay-P07" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/samaypatel7" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('start') }}">Prediction Interface</a>
+                    <a href="{{ url_for('about') }}">About ProfitPulse</a>
+                    <a href="{{ url_for('contact') }}">Contact Support</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Market Leaders</h3>
+                <div class="footer-links">
+                    <a href="http://relianceretail.com/" target="_blank">Reliance Retail</a>
+                    <a href="https://www.dmartindia.com/" target="_blank">D-mart</a>
+                    <a href="https://www.bigbasket.com/" target="_blank">Bigbasket</a>
+                    <a href="https://blinkit.com/" target="_blank">Blinkit</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Developed by Samay Patel. Supermarket Sales Prediction.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if(mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                if(navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.width = '100%';
+                    navLinks.style.background = 'rgba(255,255,255,0.95)';
+                    navLinks.style.padding = '1rem';
+                    navLinks.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

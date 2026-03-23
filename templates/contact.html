@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitPulse | Contact</title>
+    
+    <!-- Fonts && Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <style>
+        .page-header {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: radial-gradient(circle at top right, rgba(236, 72, 153, 0.05), transparent 70%);
+        }
+
+        .contact-container {
+            max-width: 1100px;
+            margin: 0 auto 6rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .contact-info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(79, 70, 229, 0.3);
+        }
+
+        .contact-icon {
+            font-size: 1.75rem;
+            color: var(--primary);
+            background: rgba(79, 70, 229, 0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-details p, .contact-details a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .contact-details a:hover {
+            color: var(--primary);
+        }
+
+        /* 3D Flip Card - Developer Profile */
+        .card-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            height: 480px;
+        }
+
+        .card-flip {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            box-shadow: var(--shadow-xl);
+            border-radius: var(--radius-xl);
+        }
+
+        .card-container:hover .card-flip {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Front Face */
+        .card-front .cover {
+            height: 140px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 100%;
+        }
+
+        .card-front .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--surface);
+            margin: -60px auto 1rem;
+            background: white;
+            object-fit: cover;
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-front h3 {
+            font-size: 1.75rem;
+            color: var(--text-main);
+        }
+
+        .card-front .role {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-front .bio {
+            padding: 0 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Back Face */
+        .card-back {
+            transform: rotateY(180deg);
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(to bottom right, var(--surface), #f8fafc);
+        }
+
+        .card-back h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .card-back p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            text-align: justify;
+        }
+
+        .card-socials {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .card-socials a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .card-socials a:hover {
+            color: white;
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                Profit<span>Pulse</span>
+            </a>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('start') }}" class="nav-link">Prediction</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About Us</a>
+                <a href="{{ url_for('contact') }}" class="nav-link active">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+        <div class="section-title animate-fade-up">
+            <h2>Get in Touch</h2>
+            <p>Connect with the developer or request support for analyzing massive datasets and complex operations.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="section pt-0">
+        <div class="contact-container">
+            
+            <!-- Contact Info -->
+            <div class="contact-info-list animate-fade-up">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Phone Number</h4>
+                        <a href="tel:+916355551681">+91 6355551681</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Email Address</h4>
+                        <a href="mailto:patelsamay071@gmail.com">patelsamay071@gmail.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Location</h4>
+                        <p>Alpha College of Engineering and Technology<br>Khatraj, Kalol</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Developer 3D Card -->
+            <div class="card-container animate-fade-up" style="animation-delay: 0.2s;">
+                <div class="card-flip">
+                    <!-- Front -->
+                    <div class="card-front">
+                        <div class="cover"></div>
+                        <img src="{{ url_for('static', filename='samay.jpeg') }}" alt="Samay Patel" class="profile-pic" onerror="this.src='https://ui-avatars.com/api/?name=Samay+Patel&background=fff&color=4F46E5'">
+                        <h3>Samay Patel</h3>
+                        <div class="role">Software Developer</div>
+                        
+                        <div class="bio">
+                            <p><strong>Enrollment:</strong> 200510116001</p>
+                            <p style="margin-top: 10px;">Studying at Alpha College of Engineering and Technology.</p>
+                            <p style="margin-top: 10px;">Specializing in Python, Machine Learning, and Predictive Analytics infrastructure.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Back -->
+                    <div class="card-back">
+                        <h3>Project Vision</h3>
+                        <p>
+                            Supermarkets rely on accurate sales predictions to optimize inventory, staffing, and marketing. Machine learning offers a powerful solution to forecast sales with high accuracy, enabling data-driven decisions that enhance overall business performance and reliability at a massive scale.
+                        </p>
+                        <div class="card-socials">
+                            <a href="https://www.linkedin.com/in/samaypatel7" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://github.com/Samay-P07" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                    <div style="background: white; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--primary); margin-right: 0.75rem;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="brand" style="color: white; margin: 0;">
+                        Profit<span style="background: linear-gradient(135deg, #818CF8, #F472B6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pulse</span>
+                    </a>
+                </div>
+                <p>Machine learning-powered sales forecasting tool that uses historical data and advanced algorithms to accurately predict future trends and business performance.</p>
+                <div class="social-links">
+                    <a href="https://github.com/Samay-P07" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/samaypatel7" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('start') }}">Prediction Interface</a>
+                    <a href="{{ url_for('about') }}">About ProfitPulse</a>
+                    <a href="{{ url_for('contact') }}">Contact Support</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Market Leaders</h3>
+                <div class="footer-links">
+                    <a href="http://relianceretail.com/" target="_blank">Reliance Retail</a>
+                    <a href="https://www.dmartindia.com/" target="_blank">D-mart</a>
+                    <a href="https://www.bigbasket.com/" target="_blank">Bigbasket</a>
+                    <a href="https://blinkit.com/" target="_blank">Blinkit</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Developed by Samay Patel. Supermarket Sales Prediction.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if(mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                if(navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.width = '100%';
+                    navLinks.style.background = 'rgba(255,255,255,0.95)';
+                    navLinks.style.padding = '1rem';
+                    navLinks.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

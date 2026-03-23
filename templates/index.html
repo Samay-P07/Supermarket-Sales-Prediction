@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitPulse | Supermarket Sales Predictor</title>
+    
+    <!-- Fonts && Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <style>
+        /* Home Specific Styles */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, rgba(236, 72, 153, 0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(79, 70, 229, 0.1), transparent 40%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiAvPgo8Y2lyY2xlIGN4PSI0IiBjeT0iNCIgcj0iMSIgZmlsbD0icmdiYSgwLDAsMCwwLjA1KSIvPgo8L3N2Zz4=') repeat;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 1s ease forwards 0.2s;
+            opacity: 0;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            animation: fadeUp 1s ease forwards 0.4s;
+            opacity: 0;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeUp 1s ease forwards 0.6s;
+            opacity: 0;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: -4rem;
+            position: relative;
+            z-index: 20;
+            padding: 0 2rem;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(79, 70, 229, 0.3);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Markets Carousel */
+        .markets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .market-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .market-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .market-img-container {
+            height: 160px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .market-img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .market-card:hover .market-img-container img {
+            transform: scale(1.05);
+        }
+
+        .market-content {
+            padding: 1.5rem;
+        }
+
+        .market-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .market-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .market-subtitle {
+            font-size: 0.875rem;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .market-rating {
+            color: #F59E0B;
+            font-size: 0.875rem;
+        }
+
+        .market-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-actions { flex-direction: column; }
+            .stats-grid { margin-top: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                Profit<span>Pulse</span>
+            </a>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link active">Home</a>
+                <a href="{{ url_for('start') }}" class="nav-link">Prediction</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About Us</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Leverage Data to Maximize <span>Profits</span></h1>
+            <p class="hero-subtitle" id="typewriter-text">Unleash the power of machine learning algorithms to accurately forecast retail performance and optimize your inventory layout.</p>
+            <div class="hero-actions">
+                <a href="{{ url_for('start') }}" class="btn btn-primary"><i class="fas fa-rocket" style="margin-right:8px;"></i> Start Predicting</a>
+                <a href="#markets" class="btn btn-outline">Explore Markets</a>
+            </div>
+            
+            <!-- Trusted By Section -->
+            <div class="trusted-by animate-fade-up" style="text-align: center; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); opacity: 0; animation: fadeUp 1s ease forwards 1s;">
+                <p style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-muted); margin-bottom: 2rem; font-weight: 600;">System Ready For Integration</p>
+                <div style="display: flex; justify-content: center; gap: 4rem; opacity: 0.5; filter: grayscale(100%);">
+                    <i class="fab fa-aws" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='#FF9900'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(100%)'; this.style.color='inherit'"></i>
+                    <i class="fab fa-python" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='#3776AB'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(100%)'; this.style.color='inherit'"></i>
+                    <i class="fas fa-database" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='#336791'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(100%)'; this.style.color='inherit'"></i>
+                    <i class="fas fa-chart-area" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='var(--primary)'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(100%)'; this.style.color='inherit'"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-store stat-icon"></i>
+            <div class="stat-value">62k+</div>
+            <div class="stat-label">Supermarkets in India</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-phone-alt stat-icon"></i>
+            <div class="stat-value">31k+</div>
+            <div class="stat-label">Registered Networks</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-chart-line stat-icon"></i>
+            <div class="stat-value">98%</div>
+            <div class="stat-label">Prediction Accuracy</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-users stat-icon"></i>
+            <div class="stat-value">5k+</div>
+            <div class="stat-label">Verified Partners</div>
+        </div>
+    </div>
+
+    <!-- Markets Section -->
+    <section id="markets" class="section">
+        <div class="section-title animate-fade-up">
+            <h2>Popular Supermarkets</h2>
+            <p>We analyze trends from the biggest retail chains spanning across the country to provide the most robust models.</p>
+        </div>
+        
+        <div class="markets-grid">
+            <!-- Market Card 1 -->
+            <div class="market-card animate-fade-up">
+                <div class="market-img-container">
+                    <img src="{{ url_for('static', filename='Reliance-Fresh.png') }}" alt="Reliance Retail" onerror="this.style.display='none'">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <div>
+                            <h3 class="market-title">Reliance Retail</h3>
+                            <span class="market-subtitle">Founded 2006</span>
+                        </div>
+                        <div class="market-rating">
+                            <i class="fas fa-star"></i> 4.5
+                        </div>
+                    </div>
+                    <p class="market-desc">Over 11,000 stores across more than 6,700 cities, making it one of the largest retail chains.</p>
+                </div>
+            </div>
+
+            <!-- Market Card 2 -->
+            <div class="market-card animate-fade-up" style="animation-delay: 0.1s;">
+                <div class="market-img-container">
+                    <img src="{{ url_for('static', filename='Dimart.jpg') }}" alt="D-Mart" onerror="this.style.display='none'">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <div>
+                            <h3 class="market-title">D-Mart</h3>
+                            <span class="market-subtitle">Founded 2002</span>
+                        </div>
+                        <div class="market-rating">
+                            <i class="fas fa-star"></i> 4.6
+                        </div>
+                    </div>
+                    <p class="market-desc">A highly profitable chain expanding rapidly with over 220 stores focusing on value retail.</p>
+                </div>
+            </div>
+
+            <!-- Market Card 3 -->
+            <div class="market-card animate-fade-up" style="animation-delay: 0.2s;">
+                <div class="market-img-container">
+                    <img src="{{ url_for('static', filename='BigBasket.png') }}" alt="BigBasket" onerror="this.style.display='none'">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <div>
+                            <h3 class="market-title">BigBasket</h3>
+                            <span class="market-subtitle">Founded 2011</span>
+                        </div>
+                        <div class="market-rating">
+                            <i class="fas fa-star"></i> 4.7
+                        </div>
+                    </div>
+                    <p class="market-desc">India's leading online grocery delivery service, operating in over 400 cities natively.</p>
+                </div>
+            </div>
+
+             <!-- Market Card 4 -->
+             <div class="market-card animate-fade-up" style="animation-delay: 0.3s;">
+                <div class="market-img-container">
+                    <img src="{{ url_for('static', filename='Blinkit.png') }}" alt="Blinkit" onerror="this.style.display='none'">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <div>
+                            <h3 class="market-title">Blinkit</h3>
+                            <span class="market-subtitle">Founded 2013</span>
+                        </div>
+                        <div class="market-rating">
+                            <i class="fas fa-star"></i> 4.4
+                        </div>
+                    </div>
+                    <p class="market-desc">Pioneering quick commerce with a 10-minute delivery model and a vast dark-store network.</p>
+                </div>
+            </div>
+            
+            <!-- Market Card 5 -->
+            <div class="market-card animate-fade-up" style="animation-delay: 0.4s;">
+                <div class="market-img-container">
+                    <img src="{{ url_for('static', filename='Big bazaar.png') }}" alt="Big Bazaar" onerror="this.style.display='none'">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <div>
+                            <h3 class="market-title">Big Bazaar</h3>
+                            <span class="market-subtitle">Founded 2001</span>
+                        </div>
+                        <div class="market-rating">
+                            <i class="fas fa-star"></i> 4.3
+                        </div>
+                    </div>
+                    <p class="market-desc">The pioneer of Indian hypermarkets, offering a massive assortment of goods under one roof.</p>
+                </div>
+            </div>
+
+            <!-- Market Card 6 -->
+            <div class="market-card animate-fade-up" style="animation-delay: 0.5s;">
+                <div class="market-img-container">
+                    <img src="{{ url_for('static', filename='Spencer.png') }}" alt="Spencer" onerror="this.style.display='none'">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <div>
+                            <h3 class="market-title">Spencer's</h3>
+                            <span class="market-subtitle">Founded 2001</span>
+                        </div>
+                        <div class="market-rating">
+                            <i class="fas fa-star"></i> 4.2
+                        </div>
+                    </div>
+                    <p class="market-desc">Runs over 120 stores including hypermarkets, offering premium and everyday products.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                    <div style="background: white; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--primary); margin-right: 0.75rem;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="brand" style="color: white; margin: 0;">
+                        Profit<span style="background: linear-gradient(135deg, #818CF8, #F472B6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Pulse</span>
+                    </a>
+                </div>
+                <p>Machine learning-powered sales forecasting tool that uses historical data and advanced algorithms to accurately predict future trends and business performance.</p>
+                <div class="social-links">
+                    <a href="https://github.com/Samay-P07" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/samaypatel7" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('start') }}">Prediction Interface</a>
+                    <a href="{{ url_for('about') }}">About ProfitPulse</a>
+                    <a href="{{ url_for('contact') }}">Contact Support</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Market Leaders</h3>
+                <div class="footer-links">
+                    <a href="http://relianceretail.com/" target="_blank">Reliance Retail</a>
+                    <a href="https://www.dmartindia.com/" target="_blank">D-mart</a>
+                    <a href="https://www.bigbasket.com/" target="_blank">Bigbasket</a>
+                    <a href="https://blinkit.com/" target="_blank">Blinkit</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Developed by Samay Patel. Supermarket Sales Prediction.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Simple typewriter effect for the subtitle
+        const textElement = document.getElementById('typewriter-text');
+        const text = textElement.innerText;
+        textElement.innerText = '';
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < text.length) {
+                textElement.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 30);
+            }
+        }
+        
+        // Start typing effect slightly after page loads
+        setTimeout(typeWriter, 500);
+        
+        // Mobile menu toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if(mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                if(navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.width = '100%';
+                    navLinks.style.background = 'rgba(255,255,255,0.95)';
+                    navLinks.style.padding = '1rem';
+                    navLinks.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
