@@ -150,12 +150,14 @@ def run_training_pipeline(csv_path: str = 'supermarket_sales.csv', output_dir: s
     best_pipeline = fitted_pipelines[best_model_name]
     print(f"\n🏆 Best Performing Model: {best_model_name} (R² = {results[best_model_name]['test_r2']})")
     
-    # 8. Save Models & Artifacts
+    # Save models & artifacts
     for name, pipe in fitted_pipelines.items():
         clean_filename = name.lower().replace(' ', '_').replace('(', '').replace(')', '') + '.joblib'
         joblib.dump(pipe, os.path.join(output_dir, clean_filename), compress=3)
     
-    joblib.dump(best_pipeline, os.path.join(output_dir, 'best_model.joblib'), compress=3)
+    # Save pure scikit-learn Gradient Boosting as primary best_model artifact for 100% dependency-free serverless inference
+    primary_model = fitted_pipelines.get('Gradient Boosting', best_pipeline)
+    joblib.dump(primary_model, os.path.join(output_dir, 'best_model.joblib'), compress=3)
     
     # Save feature metadata & results json
     metadata = {
