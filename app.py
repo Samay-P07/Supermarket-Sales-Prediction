@@ -66,6 +66,19 @@ def load_all_artifacts():
 # Load models on startup
 load_all_artifacts()
 
+# Fallback: auto-train models if missing or incompatible with current environment
+if not LOADED_MODELS:
+    csv_path = os.path.join(BASE_DIR, 'supermarket_sales.csv')
+    if os.path.exists(csv_path):
+        try:
+            print("[*] No compatible models found. Training on current environment...")
+            from train_models import run_training_pipeline
+            run_training_pipeline(csv_path=csv_path, output_dir=MODELS_DIR)
+            load_all_artifacts()
+            print("[*] Environment model training completed.")
+        except Exception as e:
+            print(f"[!] Auto-training fallback error: {e}")
+
 def get_active_model(model_name: str = 'best'):
     """Return model pipeline instance or default best model."""
     normalized_name = (model_name or 'best').strip().lower()
