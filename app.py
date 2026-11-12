@@ -13,13 +13,17 @@ import numpy as np
 from datetime import datetime, timezone
 from flask import Flask, render_template, request, jsonify, send_file, Response
 
-app = Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max upload size
-
-# Model Directory & Metadata
+# Base Directory & Metadata
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODELS_DIR = os.path.join(BASE_DIR, 'saved_models')
 METRICS_PATH = os.path.join(MODELS_DIR, 'metrics.json')
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, 'templates'),
+    static_folder=os.path.join(BASE_DIR, 'static')
+)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max upload size
 
 # Cache for loaded models
 LOADED_MODELS = {}
