@@ -9,8 +9,12 @@
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
   <a href="https://flask.palletsprojects.com/"><img src="https://img.shields.io/badge/Flask-3.0%2B-black?style=for-the-badge&logo=flask" alt="Flask"></a>
   <a href="https://scikit-learn.org/"><img src="https://img.shields.io/badge/scikit--learn-1.3%2B-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white" alt="Scikit-Learn"></a>
-  <a href="https://xgboost.readthedocs.io/"><img src="https://img.shields.io/badge/XGBoost-Tuned-navy?style=for-the-badge" alt="XGBoost"></a>
+  <a href="https://vercel.com/"><img src="https://img.shields.io/badge/Vercel-Live%20Hosted-black?style=for-the-badge&logo=vercel" alt="Vercel"></a>
   <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a>
+</p>
+
+<p align="center">
+  🌐 <b>Live Web Application:</b> <a href="https://supermarket-sales-prediction-rho.vercel.app" target="_blank"><b>Visit ProfitPulse on Vercel 🚀</b></a>
 </p>
 
 ---
