@@ -1,0 +1,12 @@
+.git
+.github
+tests
+*.ipynb
+supermarket_sales.csv
+train_models.py
+Dockerfile
+docker-compose.yml
+.pytest_cache
+requirements-dev.txt
+README.md
+saved_models/xgboost.joblib

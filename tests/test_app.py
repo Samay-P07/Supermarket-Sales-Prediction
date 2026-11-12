@@ -73,7 +73,7 @@ def test_api_predict_success(client):
         "Hour": 14,
         "DayOfWeek": 2,
         "Month": 3,
-        "model_name": "xgboost"
+        "model_name": "gradient boosting"
     }
     res = client.post('/api/v1/predict', 
                       data=json.dumps(payload),

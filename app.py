@@ -44,9 +44,8 @@ def load_all_artifacts():
     
     # Map friendly UI names to joblib file paths
     model_mapping = {
-        'xgboost': 'xgboost.joblib',
-        'random forest regressor': 'random_forest.joblib',
         'gradient boosting': 'gradient_boosting.joblib',
+        'random forest regressor': 'random_forest.joblib',
         'ridge regression': 'ridge_regression.joblib',
         'lasso regression': 'lasso_regression.joblib',
         'support vector machine (svm)': 'support_vector_machine_svm.joblib',
@@ -74,7 +73,9 @@ def get_active_model(model_name: str = 'best'):
         return LOADED_MODELS[normalized_name], normalized_name
     # Fallback to best or first available
     if 'best' in LOADED_MODELS:
-        return LOADED_MODELS['best'], 'best (xgboost)'
+        return LOADED_MODELS['best'], 'Gradient Boosting (Best)'
+    if 'gradient boosting' in LOADED_MODELS:
+        return LOADED_MODELS['gradient boosting'], 'Gradient Boosting'
     if LOADED_MODELS:
         first_key = next(iter(LOADED_MODELS))
         return LOADED_MODELS[first_key], first_key
