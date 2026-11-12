@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitPulse | Batch Prediction Engine</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+
+        .batch-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .batch-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .batch-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .batch-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .upload-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 3rem 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border: 2px dashed #cbd5e1;
+            text-align: center;
+            transition: var(--transition);
+            margin-bottom: 3rem;
+        }
+
+        .upload-card:hover {
+            border-color: var(--primary);
+            background: #faf5ff;
+        }
+
+        .upload-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.85rem 1.75rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .file-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
+        }
+
+        .sample-download-bar {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .sample-download-bar a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .stat-box span {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .stat-box strong {
+            font-size: 1.8rem;
+            color: #1e293b;
+        }
+
+        .results-table-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            overflow-x: auto;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .results-table th {
+            background: #f8fafc;
+            padding: 0.85rem 1rem;
+            font-weight: 700;
+            color: #475569;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .results-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+        }
+
+        .pred-pill {
+            background: #dcfce7;
+            color: #15803d;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                Profit<span>Pulse</span>
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('predict') }}" class="nav-link">Prediction</a>
+                <a href="{{ url_for('batch_predict_page') }}" class="nav-link active">Batch Predict</a>
+                <a href="{{ url_for('dashboard') }}" class="nav-link">Analytics</a>
+                <a href="{{ url_for('benchmarks') }}" class="nav-link">Benchmarks</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="batch-container">
+        
+        <div class="batch-header">
+            <h1>Bulk Transaction Sales Inference</h1>
+            <p>Upload a CSV file of transactions to generate automated sales forecasts, COGS calculations, and tax projections at enterprise scale.</p>
+        </div>
+
+        {% if error_message %}
+            <div style="background: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center;">
+                <i class="fas fa-exclamation-circle"></i> {{ error_message }}
+            </div>
+        {% endif %}
+
+        <!-- Upload Form -->
+        <form action="{{ url_for('batch_predict_page') }}" method="POST" enctype="multipart/form-data">
+            <div class="upload-card">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <h3>Choose a CSV file to process</h3>
+                <p style="color: #64748b; margin-top: 0.25rem;">Supported format: .csv (UTF-8 encoded)</p>
+                
+                <input type="file" name="file" id="file" class="file-input" accept=".csv" required onchange="document.getElementById('file-name').innerText = this.files[0].name;">
+                <label for="file" class="file-label">
+                    <i class="fas fa-folder-open"></i> Browse CSV File
+                </label>
+                <div id="file-name" style="margin-top: 0.75rem; font-weight: 600; color: #4338ca;"></div>
+
+                <div style="margin-top: 1.5rem;">
+                    <button type="submit" style="background: #10b981; color: white; border: none; padding: 0.85rem 2rem; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                        <i class="fas fa-play"></i> Run Batch Prediction
+                    </button>
+                </div>
+
+                <div class="sample-download-bar">
+                    Need a template? <a href="{{ url_for('download_sample_csv') }}"><i class="fas fa-download"></i> Download Sample CSV</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- Preview Results if Available -->
+        {% if preview_data %}
+            <div class="stats-summary">
+                <div class="stat-box">
+                    <span>Processed Transactions</span>
+                    <strong>{{ total_records }}</strong>
+                </div>
+                <div class="stat-box">
+                    <span>Total Forecast Revenue</span>
+                    <strong style="color: #10B981;">${{ "%.2f"|format(total_predicted_sum) }}</strong>
+                </div>
+                <div class="stat-box">
+                    <span>Average Basket Value</span>
+                    <strong>${{ "%.2f"|format(avg_predicted_val) }}</strong>
+                </div>
+            </div>
+
+            <div class="results-table-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e293b;">
+                        Inference Results Preview (Top 15 Rows)
+                    </h3>
+                </div>
+
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>City</th>
+                            <th>Product Line</th>
+                            <th>Unit Price</th>
+                            <th>Qty</th>
+                            <th>Rating</th>
+                            <th>Est. COGS</th>
+                            <th>Est. Tax (5%)</th>
+                            <th>Predicted Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in preview_data %}
+                            <tr>
+                                <td>{{ row['Branch'] }}</td>
+                                <td>{{ row['City'] }}</td>
+                                <td>{{ row['Product line'] }}</td>
+                                <td>${{ "%.2f"|format(row['Unit price']) }}</td>
+                                <td>{{ row['Quantity'] }}</td>
+                                <td>{{ row['Rating'] }}</td>
+                                <td>${{ "%.2f"|format(row['Estimated_COGS']) }}</td>
+                                <td>${{ "%.2f"|format(row['Estimated_Tax_5%']) }}</td>
+                                <td><span class="pred-pill">${{ "%.2f"|format(row['Predicted_Total']) }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

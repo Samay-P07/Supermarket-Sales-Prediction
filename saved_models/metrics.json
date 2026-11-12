@@ -1,0 +1,112 @@
+{
+    "best_model": "XGBoost",
+    "categorical_features": [
+        "Branch",
+        "City",
+        "Customer type",
+        "Gender",
+        "Product line",
+        "Payment"
+    ],
+    "numerical_features": [
+        "Unit price",
+        "Quantity",
+        "Rating",
+        "Hour",
+        "DayOfWeek",
+        "Month",
+        "IsWeekend"
+    ],
+    "all_features": [
+        "Branch",
+        "City",
+        "Customer type",
+        "Gender",
+        "Product line",
+        "Payment",
+        "Unit price",
+        "Quantity",
+        "Rating",
+        "Hour",
+        "DayOfWeek",
+        "Month",
+        "IsWeekend"
+    ],
+    "metrics": {
+        "Random Forest": {
+            "cv_r2": 0.9969,
+            "test_r2": 0.9985,
+            "rmse": 9.95,
+            "mae": 6.81,
+            "mape": 2.87
+        },
+        "Gradient Boosting": {
+            "cv_r2": 0.9984,
+            "test_r2": 0.9991,
+            "rmse": 7.78,
+            "mae": 5.24,
+            "mape": 2.85
+        },
+        "Ridge Regression": {
+            "cv_r2": 0.8804,
+            "test_r2": 0.9008,
+            "rmse": 80.32,
+            "mae": 59.97,
+            "mape": 62.91
+        },
+        "Lasso Regression": {
+            "cv_r2": 0.8807,
+            "test_r2": 0.9013,
+            "rmse": 80.14,
+            "mae": 59.8,
+            "mape": 62.83
+        },
+        "Support Vector Machine (SVM)": {
+            "cv_r2": 0.7233,
+            "test_r2": 0.7781,
+            "rmse": 120.16,
+            "mae": 76.77,
+            "mape": 30.89
+        },
+        "K-Nearest Neighbors (KNN)": {
+            "cv_r2": 0.8317,
+            "test_r2": 0.8545,
+            "rmse": 97.28,
+            "mae": 75.78,
+            "mape": 48.7
+        },
+        "XGBoost": {
+            "cv_r2": 0.9984,
+            "test_r2": 0.9994,
+            "rmse": 6.48,
+            "mae": 4.87,
+            "mape": 2.74
+        }
+    },
+    "dataset_summary": {
+        "total_records": 1000,
+        "branches": [
+            "A",
+            "B",
+            "C"
+        ],
+        "cities": [
+            "Mandalay",
+            "Naypyitaw",
+            "Yangon"
+        ],
+        "product_lines": [
+            "Electronic accessories",
+            "Fashion accessories",
+            "Food and beverages",
+            "Health and beauty",
+            "Home and lifestyle",
+            "Sports and travel"
+        ],
+        "payment_methods": [
+            "Cash",
+            "Credit card",
+            "Ewallet"
+        ]
+    }
+}

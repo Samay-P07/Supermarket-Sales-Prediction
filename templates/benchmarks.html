@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitPulse | ML Model Benchmarks & Metrics</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+
+        .bench-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .bench-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .bench-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .bench-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .leaderboard-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 3rem;
+            overflow-x: auto;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .leaderboard-table th {
+            background: #f1f5f9;
+            padding: 1rem 1.25rem;
+            font-weight: 700;
+            color: #334155;
+            text-align: left;
+            border-bottom: 2px solid #cbd5e1;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .leaderboard-table td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+        }
+
+        .badge-rank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+
+        .rank-1 { background: #fef08a; color: #854d0e; }
+        .rank-2 { background: #e2e8f0; color: #475569; }
+        .rank-3 { background: #ffedd5; color: #9a3412; }
+        .rank-other { background: #f1f5f9; color: #64748b; }
+
+        .plots-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .plot-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .plot-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .plot-card img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid #f1f5f9;
+        }
+
+        .full-width-plot {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 900px) {
+            .plots-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                Profit<span>Pulse</span>
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('predict') }}" class="nav-link">Prediction</a>
+                <a href="{{ url_for('batch_predict_page') }}" class="nav-link">Batch Predict</a>
+                <a href="{{ url_for('dashboard') }}" class="nav-link">Analytics</a>
+                <a href="{{ url_for('benchmarks') }}" class="nav-link active">Benchmarks</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="bench-container">
+        
+        <div class="bench-header">
+            <h1>Model Performance & Leaderboard</h1>
+            <p>Rigorous 5-Fold Cross-Validation and holdout testing across multiple supervised machine learning architectures with zero target leakage.</p>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="leaderboard-card">
+            <h2 style="font-size: 1.3rem; font-weight: 800; color: #1e293b; margin-bottom: 1.25rem;">
+                <i class="fas fa-trophy" style="color: #eab308;"></i> Cross-Validated Algorithm Comparison
+            </h2>
+
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Model Name</th>
+                        <th>5-Fold CV R²</th>
+                        <th>Holdout Test R²</th>
+                        <th>RMSE ($)</th>
+                        <th>MAE ($)</th>
+                        <th>MAPE (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge-rank rank-1">1</span></td>
+                        <td><strong>XGBoost Regressor</strong> <span style="color:#10b981; font-weight:bold; font-size:0.8rem;">[Selected]</span></td>
+                        <td>0.9984</td>
+                        <td><strong>0.9994</strong></td>
+                        <td><strong>$6.48</strong></td>
+                        <td><strong>$4.87</strong></td>
+                        <td>2.31%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge-rank rank-2">2</span></td>
+                        <td>Gradient Boosting Regressor</td>
+                        <td>0.9984</td>
+                        <td>0.9991</td>
+                        <td>$7.78</td>
+                        <td>$5.24</td>
+                        <td>2.85%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge-rank rank-3">3</span></td>
+                        <td>Random Forest Regressor</td>
+                        <td>0.9969</td>
+                        <td>0.9985</td>
+                        <td>$9.95</td>
+                        <td>$6.81</td>
+                        <td>2.87%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge-rank rank-other">4</span></td>
+                        <td>Lasso Regression</td>
+                        <td>0.8807</td>
+                        <td>0.9013</td>
+                        <td>$80.14</td>
+                        <td>$59.80</td>
+                        <td>31.42%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge-rank rank-other">5</span></td>
+                        <td>Ridge Regression</td>
+                        <td>0.8804</td>
+                        <td>0.9008</td>
+                        <td>$80.32</td>
+                        <td>$59.97</td>
+                        <td>31.45%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge-rank rank-other">6</span></td>
+                        <td>K-Nearest Neighbors (KNN)</td>
+                        <td>0.8317</td>
+                        <td>0.8545</td>
+                        <td>$97.28</td>
+                        <td>$75.78</td>
+                        <td>40.12%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge-rank rank-other">7</span></td>
+                        <td>Support Vector Regressor (SVR)</td>
+                        <td>0.7233</td>
+                        <td>0.7781</td>
+                        <td>$120.16</td>
+                        <td>$76.77</td>
+                        <td>43.10%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Visual Evaluation Plots -->
+        <div class="plots-grid">
+            <div class="plot-card full-width-plot">
+                <h3><i class="fas fa-chart-bar" style="color: var(--primary);"></i> Algorithm Performance Benchmark (R² & RMSE)</h3>
+                <img src="{{ url_for('static', filename='plots/model_benchmark_comparison.png') }}" alt="Model Comparison Benchmark">
+            </div>
+
+            <div class="plot-card">
+                <h3><i class="fas fa-bullseye" style="color: #10B981;"></i> Actual vs. Predicted Sales Distribution</h3>
+                <img src="{{ url_for('static', filename='plots/actual_vs_predicted.png') }}" alt="Actual vs Predicted">
+            </div>
+
+            <div class="plot-card">
+                <h3><i class="fas fa-chart-area" style="color: #06B6D4;"></i> Model Residuals Distribution</h3>
+                <img src="{{ url_for('static', filename='plots/residuals_distribution.png') }}" alt="Residuals Distribution">
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
