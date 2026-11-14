@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  🌐 <b>Live Web Application:</b> <a href="https://supermarket-sales-prediction-rho.vercel.app" target="_blank"><b>Visit ProfitPulse on Vercel 🚀</b></a>
+  🌐 <b>Live Web Application:</b> <a href="https://supermarket-sales-prediction-ten.vercel.app/" target="_blank"><b>Visit ProfitPulse on Vercel 🚀</b></a>
 </p>
 
 ---
