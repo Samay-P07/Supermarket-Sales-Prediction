@@ -69,18 +69,19 @@
 
         .result-value {
             font-family: 'Outfit', sans-serif;
-            font-size: 4.5rem;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 800;
             line-height: 1.1;
             margin: 0.5rem 0 2rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            word-break: break-word;
         }
 
         .financial-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1.25rem;
             margin-bottom: 2.5rem;
         }
@@ -170,11 +171,21 @@
         }
 
         @media (max-width: 640px) {
+            .result-container {
+                padding: 5.5rem 1rem 3rem;
+            }
+            .result-card {
+                padding: 2rem 1.25rem;
+                border-radius: var(--radius-lg);
+            }
             .financial-grid {
                 grid-template-columns: 1fr;
             }
-            .result-value {
-                font-size: 3.5rem;
+            .action-buttons {
+                flex-direction: column;
+            }
+            .action-buttons .btn {
+                width: 100%;
             }
         }
     </style>
@@ -185,17 +196,20 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
-                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);">
                     <i class="fas fa-chart-line"></i>
                 </div>
                 Profit<span>Pulse</span>
             </a>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
             <div class="nav-links">
                 <a href="{{ url_for('index') }}" class="nav-link">Home</a>
                 <a href="{{ url_for('predict') }}" class="nav-link">Prediction</a>
                 <a href="{{ url_for('batch_predict_page') }}" class="nav-link">Batch Predict</a>
                 <a href="{{ url_for('dashboard') }}" class="nav-link">Analytics</a>
                 <a href="{{ url_for('benchmarks') }}" class="nav-link">Benchmarks</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About Us</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
             </div>
         </div>
     </nav>
@@ -227,36 +241,38 @@
             </div>
 
             <!-- Input Parameters Summary -->
-            <table class="transaction-table">
-                <thead>
-                    <tr>
-                        <th>Parameter</th>
-                        <th>Value</th>
-                        <th>Parameter</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Branch / City</strong></td>
-                        <td>Branch {{ transaction.branch }} ({{ transaction.city }})</td>
-                        <td><strong>Customer Type</strong></td>
-                        <td>{{ transaction.customer_type }} ({{ transaction.gender }})</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Product Line</strong></td>
-                        <td>{{ transaction.product_line }}</td>
-                        <td><strong>Payment Method</strong></td>
-                        <td>{{ transaction.payment }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Cart Quantity</strong></td>
-                        <td>{{ transaction.quantity }} items @ ${{ "%.2f"|format(transaction.unit_price) }}</td>
-                        <td><strong>Rating & Timing</strong></td>
-                        <td>⭐ {{ transaction.rating }}/10 @ {{ transaction.hour }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Branch / City</strong></td>
+                            <td>Branch {{ transaction.branch }} ({{ transaction.city }})</td>
+                            <td><strong>Customer Type</strong></td>
+                            <td>{{ transaction.customer_type }} ({{ transaction.gender }})</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Product Line</strong></td>
+                            <td>{{ transaction.product_line }}</td>
+                            <td><strong>Payment Method</strong></td>
+                            <td>{{ transaction.payment }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cart Quantity</strong></td>
+                            <td>{{ transaction.quantity }} items @ ${{ "%.2f"|format(transaction.unit_price) }}</td>
+                            <td><strong>Rating & Timing</strong></td>
+                            <td>⭐ {{ transaction.rating }}/10 @ {{ transaction.hour }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <!-- Actions -->
             <div class="action-buttons">
@@ -274,5 +290,6 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

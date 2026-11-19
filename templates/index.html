@@ -209,9 +209,11 @@
         }
         
         @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .hero-actions { flex-direction: column; }
-            .stats-grid { margin-top: 2rem; }
+            .hero { padding: 6.5rem 1.25rem 3rem; }
+            .hero-title { font-size: clamp(2rem, 7vw, 2.75rem); }
+            .hero-actions { flex-direction: column; width: 100%; gap: 0.75rem; }
+            .hero-actions .btn { width: 100%; }
+            .stats-grid { margin-top: 2rem; grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -226,9 +228,9 @@
                 </div>
                 Profit<span>Pulse</span>
             </a>
-            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
             <div class="nav-links">
-                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('index') }}" class="nav-link active">Home</a>
                 <a href="{{ url_for('predict') }}" class="nav-link">Prediction</a>
                 <a href="{{ url_for('batch_predict_page') }}" class="nav-link">Batch Predict</a>
                 <a href="{{ url_for('dashboard') }}" class="nav-link">Analytics</a>
@@ -252,11 +254,11 @@
             <!-- Trusted By Section -->
             <div class="trusted-by animate-fade-up" style="text-align: center; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); opacity: 0; animation: fadeUp 1s ease forwards 1s;">
                 <p style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-muted); margin-bottom: 2rem; font-weight: 600;">System Ready For Integration</p>
-                <div style="display: flex; justify-content: center; gap: 4rem; opacity: 0.5; filter: grayscale(100%);">
-                    <i class="fab fa-aws" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='#FF9900'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(100%)'; this.style.color='inherit'"></i>
-                    <i class="fab fa-python" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='#3776AB'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(100%)'; this.style.color='inherit'"></i>
-                    <i class="fas fa-database" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='#336791'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(100%)'; this.style.color='inherit'"></i>
-                    <i class="fas fa-chart-area" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='var(--primary)'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(100%)'; this.style.color='inherit'"></i>
+                <div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 2.5rem; opacity: 0.6;">
+                    <i class="fab fa-aws" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='#FF9900'" onmouseout="this.style.opacity='0.6'; this.style.color='inherit'"></i>
+                    <i class="fab fa-python" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='#3776AB'" onmouseout="this.style.opacity='0.6'; this.style.color='inherit'"></i>
+                    <i class="fas fa-database" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='#336791'" onmouseout="this.style.opacity='0.6'; this.style.color='inherit'"></i>
+                    <i class="fas fa-chart-area" style="font-size: 2.5rem; transition: var(--transition);" onmouseover="this.style.opacity='1'; this.style.filter='none'; this.style.color='var(--primary)'" onmouseout="this.style.opacity='0.6'; this.style.color='inherit'"></i>
                 </div>
             </div>
         </div>
@@ -472,28 +474,7 @@
         
         // Start typing effect slightly after page loads
         setTimeout(typeWriter, 500);
-        
-        // Mobile menu toggle
-        const mobileBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        if(mobileBtn) {
-            mobileBtn.addEventListener('click', () => {
-                if(navLinks.style.display === 'flex') {
-                    navLinks.style.display = 'none';
-                } else {
-                    navLinks.style.display = 'flex';
-                    navLinks.style.flexDirection = 'column';
-                    navLinks.style.position = 'absolute';
-                    navLinks.style.top = '100%';
-                    navLinks.style.left = '0';
-                    navLinks.style.width = '100%';
-                    navLinks.style.background = 'rgba(255,255,255,0.95)';
-                    navLinks.style.padding = '1rem';
-                    navLinks.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
-                }
-            });
-        }
     </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

@@ -81,6 +81,25 @@
             margin: 0 auto 2.5rem;
             font-size: 1.125rem;
         }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 6rem 1.25rem 3rem;
+            }
+            .insight-section {
+                gap: 1.5rem;
+            }
+            .insight-card {
+                padding: 1.75rem 1.25rem;
+            }
+            .predict-cta {
+                padding: 3rem 1.25rem;
+                border-radius: var(--radius-lg);
+            }
+            .predict-cta h2 {
+                font-size: 1.85rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -94,7 +113,7 @@
                 </div>
                 Profit<span>Pulse</span>
             </a>
-            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
             <div class="nav-links">
                 <a href="{{ url_for('index') }}" class="nav-link">Home</a>
                 <a href="{{ url_for('predict') }}" class="nav-link">Prediction</a>
@@ -203,28 +222,6 @@
         </div>
     </footer>
     
-    <script>
-        // Mobile menu toggle
-        const mobileBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        if(mobileBtn) {
-            mobileBtn.addEventListener('click', () => {
-                if(navLinks.style.display === 'flex') {
-                    navLinks.style.display = 'none';
-                } else {
-                    navLinks.style.display = 'flex';
-                    navLinks.style.flexDirection = 'column';
-                    navLinks.style.position = 'absolute';
-                    navLinks.style.top = '100%';
-                    navLinks.style.left = '0';
-                    navLinks.style.width = '100%';
-                    navLinks.style.background = 'rgba(255,255,255,0.95)';
-                    navLinks.style.padding = '1rem';
-                    navLinks.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
-                }
-            });
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

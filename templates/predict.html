@@ -16,14 +16,14 @@
         }
 
         .page-header {
-            padding: 6rem 2rem 3rem;
+            padding: 6.5rem 1.5rem 3rem;
             text-align: center;
             background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
             border-bottom: 1px solid var(--border);
         }
 
         .page-header h1 {
-            font-size: 2.5rem;
+            font-size: clamp(1.85rem, 5vw, 2.5rem);
             font-weight: 800;
             color: var(--text-main);
             margin-bottom: 0.5rem;
@@ -31,7 +31,7 @@
 
         .page-header p {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             max-width: 650px;
             margin: 0 auto;
         }
@@ -167,12 +167,28 @@
             box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
         }
 
+        @media (max-width: 992px) {
+            .form-container {
+                margin: -1.5rem 1.5rem 4rem;
+                padding: 2.25rem 1.75rem;
+            }
+        }
+
         @media (max-width: 768px) {
+            .page-header {
+                padding: 5.5rem 1.25rem 2.5rem;
+            }
+            .form-container {
+                margin: -1rem 1rem 3rem;
+                padding: 1.5rem 1.25rem;
+                border-radius: var(--radius-md);
+            }
             .form-grid, .live-preview-card {
                 grid-template-columns: 1fr;
             }
-            .form-container {
-                padding: 1.5rem;
+            .submit-btn {
+                font-size: 1.05rem;
+                padding: 1rem;
             }
         }
     </style>
@@ -188,13 +204,14 @@
                 </div>
                 Profit<span>Pulse</span>
             </a>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
             <div class="nav-links">
                 <a href="{{ url_for('index') }}" class="nav-link">Home</a>
                 <a href="{{ url_for('predict') }}" class="nav-link active">Prediction</a>
                 <a href="{{ url_for('batch_predict_page') }}" class="nav-link">Batch Predict</a>
                 <a href="{{ url_for('dashboard') }}" class="nav-link">Analytics</a>
                 <a href="{{ url_for('benchmarks') }}" class="nav-link">Benchmarks</a>
-                <a href="{{ url_for('about') }}" class="nav-link">About</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About Us</a>
                 <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
             </div>
         </div>
@@ -377,5 +394,6 @@
         quantityInput.addEventListener('input', updatePreview);
         updatePreview();
     </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

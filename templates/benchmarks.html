@@ -124,9 +124,31 @@
             grid-column: 1 / -1;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 992px) {
+            .bench-container {
+                padding: 5.5rem 1.5rem 3rem;
+            }
             .plots-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bench-container {
+                padding: 5rem 1rem 3rem;
+            }
+            .bench-header h1 {
+                font-size: 1.85rem;
+            }
+            .leaderboard-card {
+                padding: 1.25rem 1rem;
+            }
+            .leaderboard-table th, .leaderboard-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.825rem;
+            }
+            .plot-card {
+                padding: 1rem;
             }
         }
     </style>
@@ -137,18 +159,20 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="{{ url_for('index') }}" class="brand" style="display: flex; align-items: center;">
-                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem;">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 0.75rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);">
                     <i class="fas fa-chart-line"></i>
                 </div>
                 Profit<span>Pulse</span>
             </a>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
             <div class="nav-links">
                 <a href="{{ url_for('index') }}" class="nav-link">Home</a>
                 <a href="{{ url_for('predict') }}" class="nav-link">Prediction</a>
                 <a href="{{ url_for('batch_predict_page') }}" class="nav-link">Batch Predict</a>
                 <a href="{{ url_for('dashboard') }}" class="nav-link">Analytics</a>
                 <a href="{{ url_for('benchmarks') }}" class="nav-link active">Benchmarks</a>
-                <a href="{{ url_for('about') }}" class="nav-link">About</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About Us</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
             </div>
         </div>
     </nav>
@@ -266,5 +290,6 @@
 
     </div>
 
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
